@@ -1,0 +1,19 @@
+{% if latest_choice_list %}
+    <form action='/schemegen/convert/' method="post"><ul>
+    {% csrf_token %}
+    {% for choice in latest_choice_list %}
+        <form action='/schemegen/submit-choice>/' method='post'>
+        <li><a href="/schemegen/{{ choice.id }}/">{{ choice.choice_text }}</a><ul>
+        {% for variant in choice.variant_set.all %}
+            <li><input type="radio" name="variant" id="variant{{ forloop.counter }}" value="{{ variant.id }}">
+            <label for="variant{{ forloop.counter }}">{{ variant.variant_text }}</label></li>
+        {% endfor %}
+        </ul></li>
+        </form>
+    {% endfor %}
+    <input type="submit" value="Convert to Word!">
+    </form></ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
