@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+</head>
+<body>
+<select name="available-trees" id="trees">
+    {% for tree_id, tree_name in tree_ids.items %}
+        {% if tree_id == tree.id %}
+            <option value="tree{{ tree_id }}" selected>{{ tree_name }}</option>
+        {% else %}
+            <option value="tree{{ tree_id }}">{{ tree_name }}</option>
+        {% endif %}
+    {% endfor %}
+</select>
+{% if tree %}
+    <form action='/schemegen/convert/{{ tree.id }}' method="post">
+    {% csrf_token %}
+    {% for choice in tree.choice_set.all %}
+        <h2>{{ choice.choice_text }}</h2>
+        {% for variant in choice.variant_set.all %}
+            <input type="radio" name="variant_choice{{ choice.id }}" id="variant{{ forloop.counter }}" value="{{ variant.id }}">
+            <label for="variant{{ forloop.counter }}">{{ variant.variant_text }}</label>
+        {% endfor %}
+    {% endfor %}
+    <br>
+    <input type="submit" value="Convert to Word!">
+    </form>
+{% else %}
+    <p>Not available.</p>
+{% endif %}
+
+{% load static %}
+<script src="{% static 'trees.js' %}"></script>   
+</body>
+</html>

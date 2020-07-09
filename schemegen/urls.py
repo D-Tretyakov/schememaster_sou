@@ -4,7 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('kek', views.kek, name='kek'),
-    path('<int:choice_id>/', views.detail, name='detail'),
-    path('convert/', views.convert, name='convert'),
+    path('convert/<int:tree_id>', views.convert, name='convert'),
+    path('tree/<int:tree_id>', views.get_tree, name='get_tree'),
 ]
