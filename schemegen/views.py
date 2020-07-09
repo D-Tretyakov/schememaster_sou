@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-import json
+from rest_framework import viewsets
 
 from .models import Tree, Choice, Variant, Schema
+from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
 
 
 def index(request):
@@ -22,3 +23,32 @@ def convert(request, tree_id):
     text = Tree.objects.get(id=tree_id).schema_set.all()[0].text_repr.format(*result)
 
     return HttpResponse(text.replace('\n', '<br>'))
+
+
+class TreeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Tree.objects.all()
+    serializer_class = TreeSerializer
+
+class ChoiceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Choice.objects.all()
+    serializer_class = ChoiceSerializer
+
+class VariantViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Variant.objects.all()
+    serializer_class = VariantSerializer
+
+class SchemaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Schema.objects.all()
+    serializer_class = SchemaSerializer
