@@ -10,6 +10,7 @@ class Tree(models.Model):
 class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
+    multiple = models.BooleanField()
 
     def __str__(self):
         return self.choice_text
