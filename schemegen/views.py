@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .models import Tree, Choice, Variant, Schema
 from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
@@ -24,6 +26,16 @@ def convert(request, tree_id):
 
     return HttpResponse(text.replace('\n', '<br>'))
 
+@api_view()
+def get_full_tree(request, tree_id):
+    tree = Tree.objects.get(id=tree_id)
+    
+    return Response({
+        'tree_name': tree.name,
+        'choices': { choice.choice_text : 
+            [variant.variant_text for variant in choice.variant_set.all()]
+            for choice in tree.choice_set.all()}
+    })
 
 class TreeViewSet(viewsets.ModelViewSet):
     """
