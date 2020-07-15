@@ -1,26 +1,52 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-import json
+from rest_framework import viewsets
 
-from .models import Choice, Variant
-
-
-def detail(request, choice_id):
-    return HttpResponse("You're looking at choice %s." % choice_id)
+from .models import Tree, Choice, Variant, Schema
+from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
 
 def index(request):
     latest_choice_list = Choice.objects.all()
     context = {'latest_choice_list': latest_choice_list}
     return render(request, 'schemegen/index.html', context)
+def get_tree(request, tree_id):
+    tree_ids = {tree.id: tree.name for tree in Tree.objects.all()}
+    tree = Tree.objects.get(id=tree_id)
+    context = {'tree': tree, 'tree_ids': tree_ids}
+    return render(request, 'schemegen/tree.html', context)
 
-def kek(request):
-    latest_choice_list = Choice.objects.all()
-    context = {'latest_choice_list': latest_choice_list}
-    return render(request, 'schemegen/kek.html', context)
+class TreeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Tree.objects.all()
+    serializer_class = TreeSerializer
+
+class ChoiceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Choice.objects.all()
+    serializer_class = ChoiceSerializer
+
+class VariantViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Variant.objects.all()
+    serializer_class = VariantSerializer
+
+class SchemaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Schema.objects.all()
+    serializer_class = SchemaSerializer
 
 def convert(request):
     result = [Variant.objects.get(id=int(request.POST[f'variant_choice{c.id}'])).text_repr
-            for c in Choice.objects.all()]
+            for c in Tree.objects.get(id=tree_id).choice_set.all()]
+    text = Tree.objects.get(id=tree_id).schema_set.all()[0].text_repr.format(*result)
     document = Document()     
     document.save('demo.docx')   
     document.add_heading("\t\t\tИсковое заявление", 0)
@@ -44,5 +70,4 @@ def convert(request):
     context = { 'child' : result[0],'argue':result[1], 'answer':result[2],'divide':result[3],'liability':result[4],'money':result[5]}
     document.render(context)
     document.save("demo.docx") 
-    text = """Ваш шаблон успешно скачан""".format(*result)
-    return HttpResponse(text)  
+    return HttpResponse(text.replace('\n', '<br>'))  
