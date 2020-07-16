@@ -19,9 +19,9 @@
             <h2>{{ choice.choice_text }}</h2>
             {% for variant in choice.variant_set.all %}
                 {% if variant.multiple %}
-                    <input type="checkbox" name="variant_choice{{ choice.id }}" id="variant{_{ choice.id }}_{{ forloop.counter }}" value="{{ variant.id }}">
+                    <input type="checkbox" name="variant_choice{{ choice.id }}" id="variant_{{ choice.id }}_{{ forloop.counter }}" value="{{ variant.id }}">
                 {% else %}
-                    <input type="radio" name="variant_choice{{ choice.id }}" id="variant_{ choice.id }}_{{ forloop.counter }}" value="{{ variant.id }}">
+                    <input type="radio" name="variant_choice{{ choice.id }}" id="variant_{{ choice.id }}_{{ forloop.counter }}" value="{{ variant.id }}">
                 {% endif %}
                 <label for="variant{{ forloop.counter }}">{{ variant.variant_text }}</label>
             {% endfor %}
