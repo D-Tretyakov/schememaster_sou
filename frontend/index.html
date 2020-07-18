@@ -3,77 +3,90 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
     <title>schememaster</title>
   </head>
   <body>
-    <div id="app">
+    <div id="app" class="container">
     <!-- built files will be auto injected -->
     <!-- <p>{{ message }}</p>
     <button v-on:click="reverseMessage">Перевернуть сообщение</button> -->
       <form @submit="send" action="http://127.0.0.1:8000/schemegen/front/" method="POST">
-      <h2>1. Истец</h2>
-      <input type="radio" name="choice-1" id="c1-v1" value="c1-v1" v-model="choice1" checked>
-      <label for="c1-v1">Физическое лицо</label><br>
-      <input type="radio" name="choice-1" id="c1-v2" value="c1-v2" v-model="choice1">
-      <label for="c1-v2">Юридическое лицо</label><br>
-      <input type="radio" name="choice-1" id="c1-v3" value="c1-v3" v-model="choice1">
-      <label for="c1-v3">Государственный орган (орган местного самоуправления)</label><br>
-      <input type="radio" name="choice-1" id="c1-v4" value="c1-v4" v-model="choice1">
-      <label for="c1-v4">Индивидуальный предприниматель</label><br>
+      <div class="form-group">
+        <h2>1. Истец</h2>
+        <div class="custom-control custom-radio">
+        <input type="radio" name="choice-1" id="c1-v1" value="c1-v1" v-model="choice1" checked>
+        <label for="c1-v1">Физическое лицо</label><br></div>
+        <input type="radio" name="choice-1" id="c1-v2" value="c1-v2" v-model="choice1">
+        <label for="c1-v2">Юридическое лицо</label><br>
+        <input type="radio" name="choice-1" id="c1-v3" value="c1-v3" v-model="choice1">
+        <label for="c1-v3">Государственный орган (орган местного самоуправления)</label><br>
+        <input type="radio" name="choice-1" id="c1-v4" value="c1-v4" v-model="choice1">
+        <label for="c1-v4">Индивидуальный предприниматель</label><br>
+      </div>
+
+      <div class="form-group">
+        <h2>2. Представитель истца</h2>
+        <input type="radio" name="choice-2" id="c2-v1" value="c2-v1" checked v-on:click="hide('c2-block1')">
+        <label for="c2-v1">Нет</label><br>
+        <input type="radio" name="choice-2" id="c2-v2" value="c2-v2" v-on:click="show('c2-block1')">
+        <label for="c2-v2">Есть</label><br>
 
 
-      <h2>2. Представитель истца</h2>
-      <input type="radio" name="choice-2" id="c2-v1" value="c2-v1" checked v-on:click="hide('c2-block1')">
-      <label for="c2-v1">Нет</label><br>
-      <input type="radio" name="choice-2" id="c2-v2" value="c2-v2" v-on:click="show('c2-block1')">
-      <label for="c2-v2">Есть</label><br>
+        <p id="c2-block1" style="display: none;">
+        <input type="radio" name="choice-2" id="c2-v3" value="c2-v3">
+        <label for="c2-v3">Физическое лицо</label><br>
+        <input type="radio" name="choice-2" id="c2-v4" value="c2-v4">
+        <label for="c2-v4">Юридическое лицо</label><br>
+        <input type="radio" name="choice-2" id="c2-v5" value="c2-v5">
+        <label for="c2-v5">Государственный орган (орган местного самоуправления)</label><br>
+        <input type="radio" name="choice-2" id="c2-v6" value="c2-v6">
+        <label for="c2-v6">Индивидуальный предприниматель</label><br>
+        </p>
+      </div>
 
-      <p id="c2-block1" style="display: none;">
-      <input type="radio" name="choice-2" id="c2-v3" value="c2-v3">
-      <label for="c2-v3">Физическое лицо</label><br>
-      <input type="radio" name="choice-2" id="c2-v4" value="c2-v4">
-      <label for="c2-v4">Юридическое лицо</label><br>
-      <input type="radio" name="choice-2" id="c2-v5" value="c2-v5">
-      <label for="c2-v5">Государственный орган (орган местного самоуправления)</label><br>
-      <input type="radio" name="choice-2" id="c2-v6" value="c2-v6">
-      <label for="c2-v6">Индивидуальный предприниматель</label><br>
-      </p>
+      <div class="form-group">
+        <h2>3. Ответчик</h2>
+        <input type="radio" name="choice-3" id="c3-v1" value="c3-v1" checked>
+        <label for="c3-v1">Физическое лицо</label><br>
+        <input type="radio" name="choice-3" id="c3-v2" value="c3-v2">
+        <label for="c3-v2">Юридическое лицо</label><br>
+        <input type="radio" name="choice-3" id="c3-v3" value="c3-v3">
+        <label for="c3-v3">Государственный орган (орган местного самоуправления)</label><br>
+        <input type="radio" name="choice-3" id="c3-v4" value="c3-v4">
+        <label for="c3-v4">Индивидуальный предприниматель</label><br>
+      </div>
 
+      <div class="form-group">
+        <h2>4. Есть ли третье лицо</h2>
+        <input type="radio" name="choice-4" id="c4-v1" value="c4-v1" checked v-on:click="hide('c4-block1')">
+        <label for="c4-v1">Нет</label><br>
+        <input type="radio" name="choice-4" id="c4-v2" value="c4-v2" v-on:click="show('c4-block1')">
+        <label for="c4-v2">Есть</label><br>
 
-      <h2>3. Ответчик</h2>
-      <input type="radio" name="choice-3" id="c3-v1" value="c3-v1" checked>
-      <label for="c3-v1">Физическое лицо</label><br>
-      <input type="radio" name="choice-3" id="c3-v2" value="c3-v2">
-      <label for="c3-v2">Юридическое лицо</label><br>
-      <input type="radio" name="choice-3" id="c3-v3" value="c3-v3">
-      <label for="c3-v3">Государственный орган (орган местного самоуправления)</label><br>
-      <input type="radio" name="choice-3" id="c3-v4" value="c3-v4">
-      <label for="c3-v4">Индивидуальный предприниматель</label><br>
+        <p id="c4-block1" style="display: none;">
+        <input type="radio" name="choice-4" id="c4-v3" value="c4-v3">
+        <label for="c4-v3">Физическое лицо</label><br>
+        <input type="radio" name="choice-4" id="c4-v4" value="c4-v4">
+        <label for="c4-v4">Юридическое лицо</label><br>
+        <input type="radio" name="choice-4" id="c4-v5" value="c4-v5">
+        <label for="c4-v5">Государственный орган (орган местного самоуправления)</label><br>
+        <input type="radio" name="choice-4" id="c4-v6" value="c4-v6">
+        <label for="c4-v6">Индивидуальный предприниматель</label><br>
+        </p>
+      </div>
 
-
-      <h2>4. Есть ли третье лицо</h2>
-      <input type="radio" name="choice-4" id="c4-v1" value="c4-v1" checked v-on:click="hide('c4-block1')">
-      <label for="c4-v1">Нет</label><br>
-      <input type="radio" name="choice-4" id="c4-v2" value="c4-v2" v-on:click="show('c4-block1')">
-      <label for="c4-v2">Есть</label><br>
-
-      <p id="c4-block1" style="display: none;">
-      <input type="radio" name="choice-4" id="c4-v3" value="c4-v3">
-      <label for="c4-v3">Физическое лицо</label><br>
-      <input type="radio" name="choice-4" id="c4-v4" value="c4-v4">
-      <label for="c4-v4">Юридическое лицо</label><br>
-      <input type="radio" name="choice-4" id="c4-v5" value="c4-v5">
-      <label for="c4-v5">Государственный орган (орган местного самоуправления)</label><br>
-      <input type="radio" name="choice-4" id="c4-v6" value="c4-v6">
-      <label for="c4-v6">Индивидуальный предприниматель</label><br>
-      </p>
-
-
-      <h2>5. Цена иска</h2>
-      <input type="radio" name="choice-5" id="c5-v1" value="c5-v1" checked>
-      <label for="c5-v1">Указывается</label><br>
-      <input type="radio" name="choice-5" id="c5-v2" value="c5-v2">
-      <label for="c5-v2">Не указывается</label><br>
+      <div class="form-group">
+        <h2>5. Цена иска</h2>
+        <input type="radio" name="choice-5" id="c5-v1" value="c5-v1" checked>
+        <label for="c5-v1">Указывается</label><br>
+        <input type="radio" name="choice-5" id="c5-v2" value="c5-v2">
+        <label for="c5-v2">Не указывается</label><br>
+      </div>
 
 
       <h2>6. Государственная пошлина</h2>
