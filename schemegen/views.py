@@ -27,6 +27,52 @@ def convert(request, tree_id):
 
     return HttpResponse(text.replace('\n', '<br>'))
 
+def convertion(ans):
+    document = Document()     
+    document.save('demo.docx')  
+    p = document.add_paragraph("В___________________")
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph("Адрес:_____________________")
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph('{{court}}')
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph('{{complainant_1}}')
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph('{{otvetchik}}')
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph('{{third}}')
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph('{{price_isk}}')
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph('{{poshlina}}')
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph("Исковое заявление")
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p = document.add_paragraph("о {{demand_1}}")
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p = document.add_paragraph("ПРОШУ:")
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    document.add_paragraph('{{demand_2}}')
+    document.add_paragraph('{{dop_demand_1}}')
+    document.add_paragraph('{{potrebiteli}}')
+    document.add_paragraph('Приложение:')
+    document.add_paragraph('{{posh}}', style = 'List Number')
+    document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
+    document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
+    document.add_paragraph('{{complainant_2}}', style = 'List Number')
+    document.add_paragraph('{{demand_3}}', style = 'List Number')
+    document.add_paragraph('{{dop_demand_2}}', style = 'List Number')
+    document.add_paragraph('{{regulation}}', style = 'List Number')
+    document.add_paragraph('{{peace}}', style = 'List Number')
+    document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t\t\t_____________ (________________)')
+    document.save('demo.docx')
+    document = DocxTemplate("demo.docx")
+    context = { 'court' : ans[0],'complainant_1':ans[1][0], 'otvetchik':ans[2],'third':ans[3],'price_isk':ans[4],'poshlina':ans[5], 'demand_1':ans[6][0], 'demand_2':ans[6][1], 'dop_demand_1':ans[7][0], 'potrebiteli':ans[8], 'posh':ans[9], 'complainant_2':ans[1][1], 'demand_3':ans[6][2], 'dop_demand_2':ans[7][1], 'regulation':ans[10], 'peace':ans[11]}
+    document.render(context)
+    document.save("demo.docx") 
+    text = """Шаблон успешно скачан"""
+    return HttpResponse(text.replace('\n', '<br>')) 
+
 def get_text(request):
     template = Template.objects.first()
     header = "<div style='text-align: right;'>" + template.header + "</div>"
@@ -39,14 +85,16 @@ def get_text(request):
     res = {}
     for choice in req:
         i = int(choice.split('-')[1])
-        res[i] = TextAlias.objects.get(html_id=req[choice][0]).text
-    
+        answer = []
+        for j in req[choice]:
+            answer.append(TextAlias.objects.get(html_id=j).text)
+            res[i] = answer 
     ans = [res[key] for key in sorted(res.keys())]
     ans += ['1. Копия доверенности или иного документа, подтверждающего полномочия представителя' if res[2] else '']
     ans += ['2. Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)'
             if res[6] != 'не взимается' else '']
     text = schema.format(*ans)
-
+    convertion(text)
     return HttpResponse(text.replace('\n', '<br>'))
 
 @api_view()
