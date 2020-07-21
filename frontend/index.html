@@ -3,41 +3,53 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+
+    <!-- Tahoma, Verdana, sans-seriwf -->
 
     <title>schememaster</title>
   </head>
   <body>
-    <div id="app" class="container">
+    <div id="app" style="width: 50%;">
     <!-- built files will be auto injected -->
-    <!-- <p>{{ message }}</p>
-    <button v-on:click="reverseMessage">Перевернуть сообщение</button> -->
+    <!-- <p>{{ message }}</p> -->
+    <!-- <button v-on:click="reverseMessage">Перевернуть сообщение</button> -->
       <form @submit="send" action="http://127.0.0.1:8000/schemegen/front/" method="POST">
-      <div class="form-group">
+
+        <h2>0. Суд</h2>
+        <p id='c0-h1' style="background-color: #f5a62e;">
+          Определить суд Вам помогут
+          <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/">ст. 23 – 26 ГПК РФ</a>
+        </p>
+        <input type="radio" name="choice-0" id="c0-v1" value="c0-v1" v-model="choice0" checked>
+        <label for="c0-v1">Мировой судья</label><br>
+        <input type="radio" name="choice-0" id="c0-v2" value="c0-v2" v-model="choice0">
+        <label for="c0-v2">Районный суд</label><br>
+        <input type="radio" name="choice-0" id="c0-v3" value="c0-v3" v-model="choice0">
+        <label for="c0-v3">Гарнизонный военный суд</label><br>
+        <input type="radio" name="choice-0" id="c0-v4" value="c0-v4" v-model="choice0">
+        <label for="c0-v4">Областной и приравненный к нему суд</label><br>
+
         <h2>1. Истец</h2>
-        <div class="custom-control custom-radio">
         <input type="radio" name="choice-1" id="c1-v1" value="c1-v1" v-model="choice1" checked>
-        <label for="c1-v1">Физическое лицо</label><br></div>
+        <label for="c1-v1">Физическое лицо</label><br>
         <input type="radio" name="choice-1" id="c1-v2" value="c1-v2" v-model="choice1">
         <label for="c1-v2">Юридическое лицо</label><br>
         <input type="radio" name="choice-1" id="c1-v3" value="c1-v3" v-model="choice1">
         <label for="c1-v3">Государственный орган (орган местного самоуправления)</label><br>
         <input type="radio" name="choice-1" id="c1-v4" value="c1-v4" v-model="choice1">
         <label for="c1-v4">Индивидуальный предприниматель</label><br>
-      </div>
 
-      <div class="form-group">
         <h2>2. Представитель истца</h2>
         <input type="radio" name="choice-2" id="c2-v1" value="c2-v1" checked v-on:click="hide('c2-block1')">
         <label for="c2-v1">Нет</label><br>
         <input type="radio" name="choice-2" id="c2-v2" value="c2-v2" v-on:click="show('c2-block1')">
         <label for="c2-v2">Есть</label><br>
 
-
-        <p id="c2-block1" style="display: none;">
+        <div id="c2-block1" style="display: none; margin-left: 2.5rem;">
         <input type="radio" name="choice-2" id="c2-v3" value="c2-v3">
         <label for="c2-v3">Физическое лицо</label><br>
         <input type="radio" name="choice-2" id="c2-v4" value="c2-v4">
@@ -46,10 +58,8 @@
         <label for="c2-v5">Государственный орган (орган местного самоуправления)</label><br>
         <input type="radio" name="choice-2" id="c2-v6" value="c2-v6">
         <label for="c2-v6">Индивидуальный предприниматель</label><br>
-        </p>
-      </div>
+        </div>
 
-      <div class="form-group">
         <h2>3. Ответчик</h2>
         <input type="radio" name="choice-3" id="c3-v1" value="c3-v1" checked>
         <label for="c3-v1">Физическое лицо</label><br>
@@ -59,16 +69,20 @@
         <label for="c3-v3">Государственный орган (орган местного самоуправления)</label><br>
         <input type="radio" name="choice-3" id="c3-v4" value="c3-v4">
         <label for="c3-v4">Индивидуальный предприниматель</label><br>
-      </div>
 
-      <div class="form-group">
         <h2>4. Есть ли третье лицо</h2>
+        <p id='c4-h1' style="background-color: #f5a62e;">
+          Изучите
+          <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/30cce8b59fb357ee113826f9c037b00da958c7a2/">Главу 5 ГПК РФ</a>
+          о представителе в суде
+        </p>
+
         <input type="radio" name="choice-4" id="c4-v1" value="c4-v1" checked v-on:click="hide('c4-block1')">
         <label for="c4-v1">Нет</label><br>
         <input type="radio" name="choice-4" id="c4-v2" value="c4-v2" v-on:click="show('c4-block1')">
         <label for="c4-v2">Есть</label><br>
 
-        <p id="c4-block1" style="display: none;">
+        <div id="c4-block1" style="display: none; margin-left: 2.5rem;">
         <input type="radio" name="choice-4" id="c4-v3" value="c4-v3">
         <label for="c4-v3">Физическое лицо</label><br>
         <input type="radio" name="choice-4" id="c4-v4" value="c4-v4">
@@ -77,87 +91,207 @@
         <label for="c4-v5">Государственный орган (орган местного самоуправления)</label><br>
         <input type="radio" name="choice-4" id="c4-v6" value="c4-v6">
         <label for="c4-v6">Индивидуальный предприниматель</label><br>
-        </p>
-      </div>
+        </div>
 
-      <div class="form-group">
         <h2>5. Цена иска</h2>
+        <p id='c5-h1' style="background-color: #f5a62e;">
+          Особенности определения цены иска –
+          <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/7323db566b767e88542acc5ac8c780f5b6ef8e1c/">ст. 91 ГПК РФ</a>
+        </p>
+
         <input type="radio" name="choice-5" id="c5-v1" value="c5-v1" checked>
         <label for="c5-v1">Указывается</label><br>
         <input type="radio" name="choice-5" id="c5-v2" value="c5-v2">
-        <label for="c5-v2">Не указывается</label><br>
-      </div>
+          <label for="c5-v2">Не указывается</label><br>
 
+        <h2>6. Государственная пошлина</h2>
+        <p id='c6-h1' style="background-color: #f5a62e;">
+          Рассчитать размер государственной пошлины Вы можете с помощью
+          <a href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
+        </p>
+        <p id='c6-h2' style="background-color: #f5a62e;">
+          Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
+          <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
+        </p>
 
-      <h2>6. Государственная пошлина</h2>
-      <input type="radio" name="choice-6" id="c6-v1" value="c6-v1" checked v-on:click="hide('c6-block1'); hide('c6-block2'); hide('c6-block3')">
-      <label for="c6-v1">Отсутствует право на освобождение от уплаты государственной пошлины</label><br>
-      <input type="radio" name="choice-6" id="c6-v2" value="c6-v2" v-on:click="show('c6-block1')">
-      <label for="c6-v2">Есть право на освобождение от уплаты государственной пошлины</label><br>
+        <input type="radio" name="choice-6" id="c6-v1" value="c6-v1" checked v-on:click="hide('c6-block1'); hide('c6-block2'); hide('c6-block3')">
+        <label for="c6-v1">Отсутствует право на освобождение от уплаты государственной пошлины</label><br>
+        <input type="radio" name="choice-6" id="c6-v2" value="c6-v2" v-on:click="show('c6-block1')">
+        <label for="c6-v2">Есть право на освобождение от уплаты государственной пошлины</label><br>
 
-      <p id='c6-block1' style="display: none;">
-      <input type="radio" name="choice-6" id="c6-v3" value="c6-v3" v-on:click="hide('c6-block3'); show('c6-block2')">
-      <label for="c6-v3">Категория плательщика</label><br>
-      <input type="radio" name="choice-6" id="c6-v4" value="c6-v4" v-on:click="hide('c6-block2'); show('c6-block3')">
-      <label for="c6-v4">Категория дела или требования</label><br>
-      </p>
+        <div id='c6-block1' style="display: none;  margin-left: 2.5rem;">
+        <input type="radio" name="choice-6" id="c6-v3" value="c6-v3" v-on:click="hide('c6-block3'); show('c6-block2')">
+        <label for="c6-v3">Категория плательщика</label><br>
+        <input type="radio" name="choice-6" id="c6-v4" value="c6-v4" v-on:click="hide('c6-block2'); show('c6-block3')">
+        <label for="c6-v4">Категория дела или требования</label><br>
+        </div>
 
-      <p id='c6-block2' style="display: none;">
-      <input type="radio" name="choice-6" id="c6-v5" value="c6-v5">
-      <label for="c6-v5">Прокуроры - по заявлениям в защиту прав, свобод и законных интересов граждан, неопределенного круга лиц или интересов РФ, субъектов РФ и муниципальных образований (пп. 9 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v6" value="c6-v6">
-      <label for="c6-v6">Реабилитированные лица и лица, признанные пострадавшими от политических репрессий, - при обращении по вопросам, возникающим в связи с применением законодательства о реабилитации жертв политических репрессий, за исключением споров между этими лицами и их наследниками (пп. 11 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v7" value="c6-v7">
-      <label for="c6-v7">Вынужденные переселенцы и беженцы - при подаче административных исковых заявлений об оспаривании отказа в регистрации ходатайства о признании их вынужденными переселенцами или беженцами (пп. 12 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v8" value="c6-v8">
-      <label for="c6-v8">Уполномоченный федеральный орган исполнительной власти по контролю (надзору) в области защиты прав потребителей (его территориальные органы), а также иные федеральные органы исполнительной власти, осуществляющие функции по контролю и надзору в области защиты прав потребителей и безопасности товаров (работ, услуг) (их территориальные органы), органы местного самоуправления, общественные объединения потребителей (их ассоциации, союзы) - по искам, предъявляемым в интересах потребителя, группы потребителей, неопределенного круга потребителей (пп. 13 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v9" value="c6-v9">
-      <label for="c6-v9">Уполномоченный по правам человека в РФ - при совершении действий, предусмотренных пп. 1 и 3 п. 1 ст. 29 ФКЗ от 26 февраля 1997 года N 1-ФКЗ "Об Уполномоченном по правам человека в РФ" (пп. 16 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v10" value="c6-v10">
-      <label for="c6-v10">Уполномоченный по правам человека в РФ - при совершении действий, предусмотренных пп. 1 и 3 п. 1 ст. 29 ФКЗ от 26 февраля 1997 года N 1-ФКЗ "Об Уполномоченном по правам человека в РФ" (пп. 16 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v11" value="c6-v11">
-      <label for="c6-v11">Государственные органы, органы местного самоуправления, выступающие по делам, рассматриваемым Верховным Судом РФ, судами общей юрисдикции, мировыми судьями, в качестве истцов (административных истцов) или ответчиков (административных ответчиков) (пп. 19 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v12" value="c6-v12">
-      <label for="c6-v12">Авторы результата интеллектуальной деятельности - по искам о предоставлении им права использования результата интеллектуальной деятельности, исключительное право на который принадлежит другому лицу (принудительная лицензия) (пп. 21 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v13" value="c6-v13">
-      <label for="c6-v13">Общественные организации инвалидов, выступающие в качестве истцов (административных истцов) или ответчиков (административных ответчиков) (пп. 1 п.2 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v14" value="c6-v14">
-      <label for="c6-v14">Истцы (административные истцы) - инвалиды I или II группы (пп. 2 п.2 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v15" value="c6-v15">
-      <label for="c6-v15">Ветераны боевых действий, ветераны военной службы, обращающиеся за защитой своих прав, установленных законодательством о ветеранах (пп. 3 п.2 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v16" value="c6-v16">
-      <label for="c6-v16">Истцы - пенсионеры, получающие пенсии, назначаемые в порядке, установленном пенсионным законодательством РФ, - по искам имущественного характера, по административным искам имущественного характера к Пенсионному фонду РФ, негосударственным пенсионным фондам либо к федеральным органам исполнительной власти, осуществляющим пенсионное обеспечение лиц, проходивших военную службу (пп. 5 п.2 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v17" value="c6-v17">
-      <label for="c6-v17">Физические лица - Герои СССР, Герои РФ и полные кавалеры ордена Славы</label><br>
-      </p>
+        <div id='c6-block2' style="display: none;  margin-left: 5rem;">
+        <input type="radio" name="choice-6" id="c6-v5" value="c6-v5">
+        <label for="c6-v5">Прокуроры - по заявлениям в защиту прав, свобод и законных интересов граждан, неопределенного круга лиц или интересов РФ, субъектов РФ и муниципальных образований (пп. 9 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v6" value="c6-v6">
+        <label for="c6-v6">Реабилитированные лица и лица, признанные пострадавшими от политических репрессий, - при обращении по вопросам, возникающим в связи с применением законодательства о реабилитации жертв политических репрессий, за исключением споров между этими лицами и их наследниками (пп. 11 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v7" value="c6-v7">
+        <label for="c6-v7">Вынужденные переселенцы и беженцы - при подаче административных исковых заявлений об оспаривании отказа в регистрации ходатайства о признании их вынужденными переселенцами или беженцами (пп. 12 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v8" value="c6-v8">
+        <label for="c6-v8">Уполномоченный федеральный орган исполнительной власти по контролю (надзору) в области защиты прав потребителей (его территориальные органы), а также иные федеральные органы исполнительной власти, осуществляющие функции по контролю и надзору в области защиты прав потребителей и безопасности товаров (работ, услуг) (их территориальные органы), органы местного самоуправления, общественные объединения потребителей (их ассоциации, союзы) - по искам, предъявляемым в интересах потребителя, группы потребителей, неопределенного круга потребителей (пп. 13 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v9" value="c6-v9">
+        <label for="c6-v9">Уполномоченный по правам человека в РФ - при совершении действий, предусмотренных пп. 1 и 3 п. 1 ст. 29 ФКЗ от 26 февраля 1997 года N 1-ФКЗ "Об Уполномоченном по правам человека в РФ" (пп. 16 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v10" value="c6-v10">
+        <label for="c6-v10">Уполномоченный по правам человека в РФ - при совершении действий, предусмотренных пп. 1 и 3 п. 1 ст. 29 ФКЗ от 26 февраля 1997 года N 1-ФКЗ "Об Уполномоченном по правам человека в РФ" (пп. 16 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v11" value="c6-v11">
+        <label for="c6-v11">Государственные органы, органы местного самоуправления, выступающие по делам, рассматриваемым Верховным Судом РФ, судами общей юрисдикции, мировыми судьями, в качестве истцов (административных истцов) или ответчиков (административных ответчиков) (пп. 19 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v12" value="c6-v12">
+        <label for="c6-v12">Авторы результата интеллектуальной деятельности - по искам о предоставлении им права использования результата интеллектуальной деятельности, исключительное право на который принадлежит другому лицу (принудительная лицензия) (пп. 21 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v13" value="c6-v13">
+        <label for="c6-v13">Общественные организации инвалидов, выступающие в качестве истцов (административных истцов) или ответчиков (административных ответчиков) (пп. 1 п.2 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v14" value="c6-v14">
+        <label for="c6-v14">Истцы (административные истцы) - инвалиды I или II группы (пп. 2 п.2 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v15" value="c6-v15">
+        <label for="c6-v15">Ветераны боевых действий, ветераны военной службы, обращающиеся за защитой своих прав, установленных законодательством о ветеранах (пп. 3 п.2 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v16" value="c6-v16">
+        <label for="c6-v16">Истцы - пенсионеры, получающие пенсии, назначаемые в порядке, установленном пенсионным законодательством РФ, - по искам имущественного характера, по административным искам имущественного характера к Пенсионному фонду РФ, негосударственным пенсионным фондам либо к федеральным органам исполнительной власти, осуществляющим пенсионное обеспечение лиц, проходивших военную службу (пп. 5 п.2 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v17" value="c6-v17">
+        <label for="c6-v17">Физические лица - Герои СССР, Герои РФ и полные кавалеры ордена Славы</label><br>
+        </div>
 
-      <p id='c6-block3' style="display: none;">
-      <input type="radio" name="choice-6" id="c6-v18" value="c6-v18">
-      <label for="c6-v18">По искам, вытекающим из трудовых правоотношений (пп. 1 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v19" value="c6-v19">
-      <label for="c6-v19">По искам о взыскании пособий (пп. 1 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v20" value="c6-v20">
-      <label for="c6-v20">По искам о взыскании алиментов (пп. 2 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v21" value="c6-v21">
-      <label for="c6-v21">По искам о возмещении вреда, причиненного увечьем или иным повреждением здоровья, а также смертью кормильца (пп. 3 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v22" value="c6-v22">
-      <label for="c6-v22">По искам о возмещении имущественного и (или) морального вреда, причиненного преступлением (пп. 4 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v23" value="c6-v23">
-      <label for="c6-v23">По искам о возмещении имущественного и (или) морального вреда, причиненного в результате уголовного преследования (пп. 10 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v24" value="c6-v24">
-      <label for="c6-v24">При подаче административных исковых заявлений (пп. 7 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v25" value="c6-v25">
-      <label for="c6-v25">Истцы - при рассмотрении дел о защите прав и законных интересов ребенка (пп. 15 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v26" value="c6-v26">
-      <label for="c6-v26">Истцы - по искам неимущественного характера, связанным с защитой прав и законных интересов инвалидов (пп. 17 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v27" value="c6-v27">
-      <label for="c6-v27">Административные истцы - по административным делам о госпитализации гражданина в медицинскую организацию, оказывающую психиатрическую помощь в стационарных условиях, в недобровольном порядке и (или) о психиатрическом освидетельствовании гражданина в недобровольном порядке (пп. 18 п.1 ст. 333.36 НК РФ)</label><br>
-      <input type="radio" name="choice-6" id="c6-v28" value="c6-v28">
-      <label for="c6-v28">Истцы - по искам, связанным с нарушением прав потребителей (пп. 4 п.2 ст. 333.36 НК РФ)</label><br>
-      </p>
+        <div id='c6-block3' style="display: none; margin-left: 5rem;">
+        <input type="radio" name="choice-6" id="c6-v18" value="c6-v18">
+        <label for="c6-v18">По искам, вытекающим из трудовых правоотношений (пп. 1 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v19" value="c6-v19">
+        <label for="c6-v19">По искам о взыскании пособий (пп. 1 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v20" value="c6-v20">
+        <label for="c6-v20">По искам о взыскании алиментов (пп. 2 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v21" value="c6-v21">
+        <label for="c6-v21">По искам о возмещении вреда, причиненного увечьем или иным повреждением здоровья, а также смертью кормильца (пп. 3 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v22" value="c6-v22">
+        <label for="c6-v22">По искам о возмещении имущественного и (или) морального вреда, причиненного преступлением (пп. 4 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v23" value="c6-v23">
+        <label for="c6-v23">По искам о возмещении имущественного и (или) морального вреда, причиненного в результате уголовного преследования (пп. 10 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v24" value="c6-v24">
+        <label for="c6-v24">При подаче административных исковых заявлений (пп. 7 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v25" value="c6-v25">
+        <label for="c6-v25">Истцы - при рассмотрении дел о защите прав и законных интересов ребенка (пп. 15 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v26" value="c6-v26">
+        <label for="c6-v26">Истцы - по искам неимущественного характера, связанным с защитой прав и законных интересов инвалидов (пп. 17 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v27" value="c6-v27">
+        <label for="c6-v27">Административные истцы - по административным делам о госпитализации гражданина в медицинскую организацию, оказывающую психиатрическую помощь в стационарных условиях, в недобровольном порядке и (или) о психиатрическом освидетельствовании гражданина в недобровольном порядке (пп. 18 п.1 ст. 333.36 НК РФ)</label><br>
+        <input type="radio" name="choice-6" id="c6-v28" value="c6-v28">
+        <label for="c6-v28">Истцы - по искам, связанным с нарушением прав потребителей (пп. 4 п.2 ст. 333.36 НК РФ)</label><br>
+        </div>
+
+        <h2>7. Основные требования</h2>
+        <input type="radio" name="choice-7" id="c7-v1" value="c7-v1" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v1">О взыскании задолженности по гражданско-правовому договору</label><br>
+        <input type="radio" name="choice-7" id="c7-v2" value="c7-v2" v-model="choice7" v-on:click="show('c7-block1')">
+        <label for="c7-v2">О возврате неосновательного обогащения</label><br>
+        <div id='c7-block1' style="display: none; margin-left: 2.5rem;">
+          <input type="radio" name="choice-7" id="c7-v3" value="c7-v3" v-model="choice7" v-on:click="show('c7-block1-1'); hide('c7-block1-2'); hide('c7-block1-3')">
+          <label for="c7-v3">О возврате неосновательно переданного права</label><br>
+          <div id='c7-block1-1' style="display: none; margin-left: 5rem;">
+          <div>Неосновательное обогащение вытекает из договора</div>
+            <input type="radio" name="choice-7" id="c7-v4" value="c7-v4" v-model="choice7">
+            <label for="c7-v4">Да</label><br>
+            <input type="radio" name="choice-7" id="c7-v5" value="c7-v5" v-model="choice7">
+            <label for="c7-v5">Нет</label><br>
+          </div>
+          <input type="radio" name="choice-7" id="c7-v6" value="c7-v6" v-model="choice7" v-on:click="show('c7-block1-2'); hide('c7-block1-1'); hide('c7-block1-3')">
+          <label for="c7-v6">О возврате переданного имущества в натуре</label><br>
+          <div id='c7-block1-2' style="display: none; margin-left: 5rem;">
+            <div>Передавалась с имуществом какая-либо сопроводительная документация</div>
+            <input type="radio" name="choice-7" id="c7-v7" value="c7-v7" v-model="choice7">
+            <label for="c7-v7">Да</label><br>
+            <input type="radio" name="choice-7" id="c7-v8" value="c7-v8" v-model="choice7">
+            <label for="c7-v8">Нет</label><br>
+            <div>Неосновательное обогащение вытекает из договора</div>
+            <input type="radio" name="choice-7" id="c7-v9" value="c7-v9" v-model="choice7">
+            <label for="c7-v9">Да</label><br>
+            <input type="radio" name="choice-7" id="c7-v10" value="c7-v10" v-model="choice7">
+            <label for="c7-v10">Нет</label><br>
+          </div>
+          <input type="radio" name="choice-7" id="c7-v11" value="c7-v11" v-model="choice7" v-on:click="show('c7-block1-3'); hide('c7-block1-1'); hide('c7-block1-2')">
+          <label for="c7-v11">О взыскании стоимости имущества либо по денежным требованиям из неосновательного обогащения</label><br>
+          <div id='c7-block1-3' style="display: none; margin-left: 5rem;">
+          <div>Неосновательное обогащение вытекает из договора</div>
+            <input type="radio" name="choice-7" id="c7-v12" value="c7-v12" v-model="choice7">
+            <label for="c7-v12">Да</label><br>
+            <input type="radio" name="choice-7" id="c7-v13" value="c7-v13" v-model="choice7">
+            <label for="c7-v13">Нет</label><br>
+          </div>
+        </div>
+
+        <input type="radio" name="choice-7" id="c7-v14" value="c7-v14" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v14">О возмещении вреда</label><br>
+        <input type="radio" name="choice-7" id="c7-v15" value="c7-v15" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v15">О возмещении убытков</label><br>
+        <input type="radio" name="choice-7" id="c7-v16" value="c7-v16" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v16">О признании сделки недействительной</label><br>
+        <input type="radio" name="choice-7" id="c7-v17" value="c7-v17" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v17">О признании права</label><br>
+        <input type="radio" name="choice-7" id="c7-v18" value="c7-v18" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v18">О восстановлении в праве (кроме неосновательной передачи права)</label><br>
+        <input type="radio" name="choice-7" id="c7-v19" value="c7-v19" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v19">О восстановлении на работе</label><br>
+        <input type="radio" name="choice-7" id="c7-v20" value="c7-v20" v-model="choice7" v-on:click="hide('c7-block1')">
+        <label for="c7-v20">О восстановлении пропущенного срока</label><br>
+        <input type="radio" name="choice-7" id="c7-v21" value="c7-v21" v-model="choice7">
+        <label for="c7-v21">Об обязании нотариуса совершить нотариальное действие</label><br>
+        <input type="radio" name="choice-7" id="c7-v22" value="c7-v22" v-model="choice7">
+        <label for="c7-v22">Об обязании исполнить обязательство в натуре по договору</label><br>
+        <input type="radio" name="choice-7" id="c7-v23" value="c7-v23" v-model="choice7">
+        <label for="c7-v23">Об обязании устранить недостатки</label><br>
+        <input type="radio" name="choice-7" id="c7-v24" value="c7-v24" v-model="choice7">
+        <label for="c7-v24">Об обязании передать индивидуально-определенную вещь в соответствии с условиями обязательства (кроме неосновательного обогащения)</label><br>
+
+        <h2>8. Дополнительные требования</h2>
+        <input type="radio" name="choice-8" id="c8-v1" value="c8-v1" v-model="choice8">
+        <label for="c8-v1">О взыскании процентов за пользование чужими денежными средствами</label><br>
+        <input type="radio" name="choice-8" id="c8-v2" value="c8-v2" v-model="choice8">
+        <label for="c8-v2">О взыскании неустойки</label><br>
+        <input type="radio" name="choice-8" id="c8-v3" value="c8-v3" v-model="choice8">
+        <label for="c8-v3">О взыскании компенсации морального вреда</label><br>
+        <input type="radio" name="choice-8" id="c8-v4" value="c8-v4" v-model="choice8">
+        <label for="c8-v4">О взыскании расходов на услуги представителя</label><br>
+
+        <h2>9. Соблюден ли досудебный порядок урегулирования спора</h2>
+        <p id='c9-h1' style="background-color: #f5a62e;">
+          По некоторым категориям дел соблюдение досудебного порядка урегулирования спора обязательно!
+          <a href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
+        </p>
+
+        <input type="radio" name="choice-9" id="c9-v1" value="c9-v1" v-model="choice9">
+        <label for="c9-v1">Да</label><br>
+        <input type="radio" name="choice-9" id="c9-v2" value="c9-v2" v-model="choice9">
+        <label for="c9-v2">Нет</label><br>
+
+        <h2>10. Совершались ли стороной действия, направленные на примирение</h2>
+        <input type="radio" name="choice-10" id="c10-v1" value="c10-v1" v-model="choice10">
+        <label for="c10-v1">Да</label><br>
+        <input type="radio" name="choice-10" id="c10-v2" value="c10-v2" v-model="choice10">
+        <label for="c10-v2">Нет</label><br>
+
+        <h2>11. Предъявляется ли иск в защиту прав потребителей</h2>
+        <p id='c11-h1' style="background-color: #f5a62e;">
+          По некоторым категориям дел соблюдение досудебного порядка урегулирования спора обязательно!
+          <a href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
+        </p>
+
+        <input type="radio" name="choice-11" id="c11-v1" value="c11-v1" v-model="choice11" v-on:click="show('c11-block1')">
+        <label for="c11-v1">Да (Соблюден ли претензионный порядок?)</label><br>
+
+        <div id='c11-block1' style="margin-left: 2.5rem;">
+        <input type="radio" name="choice-11" id="c11-v2" value="c11-v2" v-model="choice11">
+        <label for="c11-v2">Да</label><br>
+        <input type="radio" name="choice-11" id="c11-v3" value="c11-v3" v-model="choice11">
+        <label for="c11-v3">Нет</label><br>
+        </div>
+
+        <input type="radio" name="choice-11" id="c11-v4" value="c11-v4" v-model="choice11" v-on:click="hide('c11-block1')">
+        <label for="c11-v4">Нет</label><br>
 
       <input type="submit" value="Convert to Word!">
       </form>
+      <button v-on:click="ask">ASK!</button>
     </div>
   </body>
 </html>
