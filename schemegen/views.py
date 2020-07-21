@@ -36,14 +36,17 @@ def convertion(ans):
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph('{{court}}')
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph('{{complainant_1}}')
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    if ans[1] != ['','']: 
+        p = document.add_paragraph('{{complainant_1}}')
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph('{{otvetchik}}')
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph('{{third}}')
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph('{{price_isk}}')
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    if ans[3] != '':
+        p = document.add_paragraph('{{third}}')
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    if ans[4] != '':
+        p = document.add_paragraph('{{price_isk}}')
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph('{{poshlina}}')
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph("Исковое заявление")
@@ -56,14 +59,18 @@ def convertion(ans):
     document.add_paragraph('{{dop_demand_1}}')
     document.add_paragraph('{{potrebiteli}}')
     document.add_paragraph('Приложение:')
-    document.add_paragraph('{{posh}}', style = 'List Number')
+    if ans[9] != '':
+        document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)', style = 'List Number')
     document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
-    document.add_paragraph('{{complainant_2}}', style = 'List Number')
+    if ans[1] != ['','']:
+        document.add_paragraph('{{complainant_2}}', style = 'List Number')
     document.add_paragraph('{{demand_3}}', style = 'List Number')
     document.add_paragraph('{{dop_demand_2}}', style = 'List Number')
-    document.add_paragraph('{{regulation}}', style = 'List Number')
-    document.add_paragraph('{{peace}}', style = 'List Number')
+    if ans[10] != '':
+        document.add_paragraph('{{regulation}}', style = 'List Number')
+    if ans[11] != '':
+        document.add_paragraph('{{peace}}', style = 'List Number')
     document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t\t\t_____________ (________________)')
     document.save('demo.docx')
     document = DocxTemplate("demo.docx")
@@ -89,10 +96,7 @@ def get_text(request):
         for j in req[choice]:
             answer.append(TextAlias.objects.get(html_id=j).text)
             res[i] = answer 
-    ans = [res[key] for key in sorted(res.keys())]
-    ans += ['1. Копия доверенности или иного документа, подтверждающего полномочия представителя' if res[2] else '']
-    ans += ['2. Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)'
-            if res[6] != 'не взимается' else '']
+    ans = [res[key] for key in sorted(res.keys())]    
     text = schema.format(*ans)
     convertion(text)
     return HttpResponse(text.replace('\n', '<br>'))
