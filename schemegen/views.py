@@ -40,49 +40,69 @@ def convertion(ans):
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph('{{court}}')
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[1] != ['','']: 
-        p = document.add_paragraph('{{complainant_1}}')
+    ans[1] = re.split('\n',ans[1][0])
+    for i in ans[1]:
+        p = document.add_paragraph(i)
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph('{{otvetchik}}')
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[3] != '':
-        p = document.add_paragraph('{{third}}')
-        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[4] != '':
+    if ans[2] != ['']:
+        ans[2] = re.split(r'[1]\d*.|\n[2,3]\d*.|\n',ans[2][0])
+        ans[2].pop(0)
+        res = re.split('\n',ans[2][0])
+        ans[2]=ans[2][1]
+        for i in res:
+            p = document.add_paragraph(i)
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
+    ans[3] = re.split('\n',ans[3][0])
+    for i in ans[3]:
+        p = document.add_paragraph(i)
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT   
+    if ans[4] != ['']:
+        ans[4] = re.split('\n',ans[4][0])
+        for i in ans[4]:
+            p = document.add_paragraph(i)
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
+    if ans[5] != ['']:
         p = document.add_paragraph('{{price_isk}}')
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph('{{poshlina}}')
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    if ans[6] != ['']:
+        p = document.add_paragraph('{{poshlina}}')
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph("Исковое заявление")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    ans[7] = re.split(r'[1]\d*.|\n[2,3]\d*.|\n',ans[7][0])
+    ans[7].pop(0)
+    print(ans[7])
+    ans[8] = re.split(r'[1]\d*.|\n[2,3]\d*.|\n',ans[8][0])
+    ans[8].pop(0)
     p = document.add_paragraph("о {{demand_1}}")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p = document.add_paragraph("ПРОШУ:")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    document.add_paragraph('{{demand_2}}')
-    document.add_paragraph('{{dop_demand_1}}')
-    document.add_paragraph('{{potrebiteli}}')
+    document.add_paragraph('1. {{demand_2}}')
+    document.add_paragraph('2. {{dop_demand_1}}')
+    if ans[11]!= ['']:
+        document.add_paragraph('3. {{potrebiteli}}')
     document.add_paragraph('Приложение:')
-    if ans[9] != '':
+    if ans[6] != ['']:
         document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)', style = 'List Number')
     document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
-    if ans[1] != ['','']:
-        document.add_paragraph('{{complainant_2}}', style = 'List Number')
+    if ans[2]!= ['']:
+        document.add_paragraph('{{complainant}}', style = 'List Number')
     document.add_paragraph('{{demand_3}}', style = 'List Number')
+    if len(ans[7]) > 3:
+        document.add_paragraph(ans[7][3])
     document.add_paragraph('{{dop_demand_2}}', style = 'List Number')
-    if ans[10] != '':
+    if ans[9] != ['']:
         document.add_paragraph('{{regulation}}', style = 'List Number')
-    if ans[11] != '':
+    if ans[10] != ['']:
         document.add_paragraph('{{peace}}', style = 'List Number')
-    document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t\t\t_____________ (________________)')
+    document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t_____________ (________________)')
     document.save('demo.docx')
     document = DocxTemplate("demo.docx")
-    context = { 'court' : ans[0],'complainant_1':ans[1][0], 'otvetchik':ans[2],'third':ans[3],'price_isk':ans[4],'poshlina':ans[5], 'demand_1':ans[6][0], 'demand_2':ans[6][1], 'dop_demand_1':ans[7][0], 'potrebiteli':ans[8], 'posh':ans[9], 'complainant_2':ans[1][1], 'demand_3':ans[6][2], 'dop_demand_2':ans[7][1], 'regulation':ans[10], 'peace':ans[11]}
+    context = { 'court' : ans[0][0],'complainant':ans[2], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'demand_1':ans[7][0], 'demand_2':ans[7][1], 'dop_demand_1':ans[8][0], 'demand_3':ans[7][2], 'dop_demand_2':ans[8][1], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
     document.save("demo.docx") 
-    text = """Шаблон успешно скачан"""
-    return HttpResponse(text.replace('\n', '<br>')) 
 
 def get_text(request):
     template = Template.objects.first()
