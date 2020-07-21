@@ -1,8 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docxtpl import DocxTemplate
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+import json
 
 from .models import Tree, Choice, Variant, Schema, Template, TextAlias
 from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
