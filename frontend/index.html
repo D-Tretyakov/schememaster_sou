@@ -17,6 +17,9 @@
     <!-- built files will be auto injected -->
     <!-- <p>{{ message }}</p> -->
     <!-- <button v-on:click="reverseMessage">Перевернуть сообщение</button> -->
+    <table>
+      <tr>
+        <td>
       <form @submit="send" action="http://127.0.0.1:8000/schemegen/front/" method="POST">
 
         <h2>0. Суд</h2>
@@ -244,13 +247,13 @@
         <label for="c7-v24">Об обязании передать индивидуально-определенную вещь в соответствии с условиями обязательства (кроме неосновательного обогащения)</label><br>
 
         <h2>8. Дополнительные требования</h2>
-        <input type="radio" name="choice-8" id="c8-v1" value="c8-v1" v-model="choice8">
+        <input type="checkbox" name="choice-8" id="c8-v1" value="c8-v1" v-model="choice81">
         <label for="c8-v1">О взыскании процентов за пользование чужими денежными средствами</label><br>
-        <input type="radio" name="choice-8" id="c8-v2" value="c8-v2" v-model="choice8">
+        <input type="checkbox" name="choice-8" id="c8-v2" value="c8-v2" v-model="choice82">
         <label for="c8-v2">О взыскании неустойки</label><br>
-        <input type="radio" name="choice-8" id="c8-v3" value="c8-v3" v-model="choice8">
+        <input type="checkbox" name="choice-8" id="c8-v3" value="c8-v3" v-model="choice83">
         <label for="c8-v3">О взыскании компенсации морального вреда</label><br>
-        <input type="radio" name="choice-8" id="c8-v4" value="c8-v4" v-model="choice8">
+        <input type="checkbox" name="choice-8" id="c8-v4" value="c8-v4" v-model="choice84">
         <label for="c8-v4">О взыскании расходов на услуги представителя</label><br>
 
         <h2>9. Соблюден ли досудебный порядок урегулирования спора</h2>
@@ -291,7 +294,13 @@
 
       <input type="submit" value="Convert to Word!">
       </form>
-      <button v-on:click="ask">ASK!</button>
+      <!-- <button v-on:click="ask">ASK!</button> -->
+    </td>
+    <td>
+      <!-- <doc></doc> -->
+    </td>
+    </tr>
+    </table>
     </div>
   </body>
 </html>

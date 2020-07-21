@@ -9,4 +9,5 @@ urlpatterns = [
     path('full_tree/<int:tree_id>', views.get_full_tree, name='get_full_tree'),
     path('front/', views.get_text, name='from_frontend'),
     path('pass/', views.pass_func, name='pass_func'),
+    path('pretty/', views.pretty_print, name='pretty'),
 ]

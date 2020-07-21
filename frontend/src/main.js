@@ -32,7 +32,11 @@ var app = new Vue({
     choice9: "c9-v1",
     choice10: "c10-v1",
     choice11: "c11-v1",
-    message: 'HELLo'
+    api_resp: '',
+    choice81: "c8-v1",
+    choice82: "",
+    choice83: "",
+    choice84: "",
   },
   methods: {
     reverseMessage: function () {
@@ -58,7 +62,8 @@ var app = new Vue({
     ask: function () {
       // alert('KEK')
       Template.show().then(response => {
-        console.log(response)
+        this.api_resp = response.text
+        console.log(this.api_resp)
       })
     }
   }

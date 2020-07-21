@@ -1,7 +1,7 @@
 import { HTTP } from './common'
 
 export const Template = {
-  show() {
+  show () {
     return HTTP.get('/pass').then(response => {
       return response.data
     })
