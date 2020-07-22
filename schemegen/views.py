@@ -37,30 +37,37 @@ def convertion(ans):
     p = document.add_paragraph("В___________________")
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph("Адрес:_____________________")
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph('{{court}}')
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    ans[1] = re.split('\n',ans[1][0])
-    for i in ans[1]:
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT    
+    for i in ans[0]:
         p = document.add_paragraph(i)
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[2] != ['']:
-        ans[2] = re.split(r'[1]\d*.|\n[2,3]\d*.|\n',ans[2][0])
-        ans[2].pop(0)
-        res = re.split('\n',ans[2][0])
-        ans[2]=ans[2][1]
+    for j in ans[1]:
+        res = re.split('\n',j)
         for i in res:
             p = document.add_paragraph(i)
-            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
-    ans[3] = re.split('\n',ans[3][0])
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    if ans[2] != ['']:
+        k = 0
+        for i in ans[2]:
+            res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+            res.pop(0)
+            part1 = re.split('\n',res[0])
+            ans[2][k]=res[1]
+            for j in part1:
+                p = document.add_paragraph(j)
+                p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
+            k+=1
     for i in ans[3]:
-        p = document.add_paragraph(i)
-        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT   
+        res = re.split('\n',i)
+        for j in res:
+            p = document.add_paragraph(j)
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT   
     if ans[4] != ['']:
-        ans[4] = re.split('\n',ans[4][0])
         for i in ans[4]:
-            p = document.add_paragraph(i)
-            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
+            res = re.split('\n',i)
+            for j in res:
+                p = document.add_paragraph(j)
+                p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
     if ans[5] != ['']:
         p = document.add_paragraph('{{price_isk}}')
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -69,19 +76,43 @@ def convertion(ans):
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph("Исковое заявление")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    ans[7] = re.split(r'[1]\d*.|\n[2,3]\d*.|\n',ans[7][0])
-    ans[7].pop(0)
-    print(ans[7])
-    ans[8] = re.split(r'[1]\d*.|\n[2,3]\d*.|\n',ans[8][0])
-    ans[8].pop(0)
-    p = document.add_paragraph("о {{demand_1}}")
+    k = 0
+    l = []
+    for i in ans[7]:
+        res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+        res.pop(0)
+        print(res)
+        l.append(res)
+        if i == ans[7][-1]:
+            ans[7] = l
+            break
+    l=[]
+    for i in ans[8]:
+        res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+        res.pop(0)
+        l.append(res)
+        if i == ans[8][-1]:
+            ans[8] = l
+            break
+    p = document.add_paragraph('о ')
+    s = ''
+    for i in ans[7]:
+        s += i[0]+', '
+    s = s[:-2]
+    p.add_run(s)
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p = document.add_paragraph("ПРОШУ:")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    document.add_paragraph('1. {{demand_2}}')
-    document.add_paragraph('2. {{dop_demand_1}}')
+    for i in ans[7]:
+        k+=1
+        document.add_paragraph('%i.' %k + i[1])
+    k = len(ans[7])+1
+    for i in ans[8]:
+        document.add_paragraph('%i.' %k + i[1])
+        k+=1
     if ans[11]!= ['']:
-        document.add_paragraph('3. {{potrebiteli}}')
+        k = k+len(ans[8])+1
+        document.add_paragraph('%i.' %k + '{{potrebiteli}}')
     document.add_paragraph('Приложение:')
     if ans[6] != ['']:
         document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)', style = 'List Number')
@@ -89,10 +120,15 @@ def convertion(ans):
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
     if ans[2]!= ['']:
         document.add_paragraph('{{complainant}}', style = 'List Number')
-    document.add_paragraph('{{demand_3}}', style = 'List Number')
-    if len(ans[7]) > 3:
-        document.add_paragraph(ans[7][3])
-    document.add_paragraph('{{dop_demand_2}}', style = 'List Number')
+    for i in ans[7]:
+        print(i[2])
+        res = re.split('\n',i[2])
+        document.add_paragraph(res[0], style = 'List Number')
+        if len(res) > 1:
+            for j in res[1:]:
+                document.add_paragraph(j)
+    for i in ans[8]:
+        document.add_paragraph(i, style = 'List Number')
     if ans[9] != ['']:
         document.add_paragraph('{{regulation}}', style = 'List Number')
     if ans[10] != ['']:
@@ -100,9 +136,9 @@ def convertion(ans):
     document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t_____________ (________________)')
     document.save('demo.docx')
     document = DocxTemplate("demo.docx")
-    context = { 'court' : ans[0][0],'complainant':ans[2], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'demand_1':ans[7][0], 'demand_2':ans[7][1], 'dop_demand_1':ans[8][0], 'demand_3':ans[7][2], 'dop_demand_2':ans[8][1], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
+    context = { 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
-    document.save("demo.docx") 
+    document.save("demo.docx")  
 
 def get_text(request):
     template = Template.objects.first()
