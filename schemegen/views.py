@@ -32,56 +32,74 @@ def convert(request, tree_id):
     return HttpResponse(text.replace('\n', '<br>'))
 
 def convertion(ans):
+    print(ans)
     document = Document()     
     document.save('demo.docx')  
-    p = document.add_paragraph("В___________________")
+    p = document.add_paragraph()
+    p.add_run('В___________________').bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph("Адрес:_____________________")
+    p = document.add_paragraph()
+    p.add_run("Адрес:_____________________").bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT    
     for i in ans[0]:
-        p = document.add_paragraph(i)
+        p = document.add_paragraph()
+        p.add_run(i).bold = True
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     for j in ans[1]:
         res = re.split('\n',j)
+        p = document.add_paragraph()
+        p.add_run('Истец:').bold = True
         for i in res:
-            p = document.add_paragraph(i)
+            p.add_run(i)
             p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[2] != ['']:
+            p = document.add_paragraph()
+    if ans[2][0] != '':
         k = 0
-        for i in ans[2]:
+        for i in ans[2][1:]:
             res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
             res.pop(0)
             part1 = re.split('\n',res[0])
+            p.add_run('Представитель Истца:').bold = True
             ans[2][k]=res[1]
             for j in part1:
-                p = document.add_paragraph(j)
-                p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
+                p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+                p = document.add_paragraph() 
             k+=1
     for i in ans[3]:
         res = re.split('\n',i)
-        for j in res:
-            p = document.add_paragraph(j)
-            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT   
-    if ans[4] != ['']:
-        for i in ans[4]:
+        p = document.add_paragraph()
+        p.add_run('Ответчик:').bold = True
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        for j in res:            
+            p.add_run(j)
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT      
+            p = document.add_paragraph()
+    if ans[4][0] != '':
+        for i in ans[4][1:]:
+            p.add_run('Третье лицо: ').bold = True
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
             res = re.split('\n',i)
             for j in res:
-                p = document.add_paragraph(j)
+                p.add_run(j)
                 p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
+                p = document.add_paragraph()
     if ans[5] != ['']:
-        p = document.add_paragraph('{{price_isk}}')
+        p = document.add_paragraph()
+        p.add_run('{{price_isk}}').bold = True
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     if ans[6] != ['']:
-        p = document.add_paragraph('{{poshlina}}')
+        p = document.add_paragraph()
+        p.add_run('Государственная пошлина: ').bold = True
+        p.add_run('{{poshlina}}')
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p = document.add_paragraph("Исковое заявление")
+    p = document.add_paragraph()
+    p.add_run("Исковое заявление").bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     k = 0
     l = []
     for i in ans[7]:
         res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
         res.pop(0)
-        print(res)
         l.append(res)
         if i == ans[7][-1]:
             ans[7] = l
@@ -94,41 +112,45 @@ def convertion(ans):
         if i == ans[8][-1]:
             ans[8] = l
             break
-    p = document.add_paragraph('о ')
+    p = document.add_paragraph()
     s = ''
     for i in ans[7]:
         s += i[0]+', '
     s = s[:-2]
-    p.add_run(s)
+    p.add_run('о ' + s).italic = True
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p = document.add_paragraph("ПРОШУ:")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    k = 0
     for i in ans[7]:
         k+=1
         document.add_paragraph('%i.' %k + i[1])
-    k = len(ans[7])+1
     for i in ans[8]:
-        document.add_paragraph('%i.' %k + i[1])
         k+=1
+        document.add_paragraph('%i.' %k + i[0])
     if ans[11]!= ['']:
-        k = k+len(ans[8])+1
+        k+=1
         document.add_paragraph('%i.' %k + '{{potrebiteli}}')
-    document.add_paragraph('Приложение:')
+    p = document.add_paragraph()
+    p.add_run('Приложение:').bold = True
     if ans[6] != ['']:
         document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)', style = 'List Number')
     document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
-    if ans[2]!= ['']:
+    if ans[2][0]!= '':
         document.add_paragraph('{{complainant}}', style = 'List Number')
     for i in ans[7]:
-        print(i[2])
         res = re.split('\n',i[2])
         document.add_paragraph(res[0], style = 'List Number')
         if len(res) > 1:
             for j in res[1:]:
                 document.add_paragraph(j)
+    l = []
     for i in ans[8]:
-        document.add_paragraph(i, style = 'List Number')
+        l.append(i[1])
+    res = set(l)
+    for i in res:
+        document.add_paragraph(res, style = 'List Number')
     if ans[9] != ['']:
         document.add_paragraph('{{regulation}}', style = 'List Number')
     if ans[10] != ['']:
@@ -138,7 +160,7 @@ def convertion(ans):
     document = DocxTemplate("demo.docx")
     context = { 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
-    document.save("demo.docx")  
+    document.save("demo.docx")   
 
 def get_text(request):
     template = Template.objects.first()
@@ -158,7 +180,7 @@ def get_text(request):
             res[i] = answer 
     ans = [res[key] for key in sorted(res.keys())]    
     text = schema.format(*ans)
-    convertion(text)
+    convertion(res)
     return HttpResponse(text.replace('\n', '<br>'))
 
 @api_view()
