@@ -32,7 +32,6 @@ def convert(request, tree_id):
     return HttpResponse(text.replace('\n', '<br>'))
 
 def convertion(ans):
-    print(ans)
     document = Document()     
     document.save('demo.docx')  
     p = document.add_paragraph()
