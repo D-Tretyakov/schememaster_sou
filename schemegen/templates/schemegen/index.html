@@ -4,12 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!-- Tahoma, Verdana, sans-seriwf -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 
     <title>schememaster VUE</title>
   </head>
   <body>
-    <div id="app" >
+    <div id="app">
+      <!-- {{showPDF}} -->
       <b-container fluid>
         <b-row>
           <!-- style="width: 50%;"  -->
@@ -17,20 +24,20 @@
           <!-- <p>{{ message }}</p> -->
           <!-- <button v-on:click="reverseMessage">Перевернуть сообщение</button> -->
           <b-col>
-            <form action="http://127.0.0.1:8000/schemegen/front/" method="POST">
+            <form action="http://127.0.0.1:8000/schemegen/download-doc/" method="POST">
 
               <h2>0. Суд</h2>
-              <p id='c0-h1' style="background-color: #f5a62e;">
+              <p id='c0-h1' style="background-color: #f1bb68;">
                 Определить суд Вам помогут
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/">ст. 23 – 26 ГПК РФ</a>
               </p>
-              <input type="checkbox" name="choice-0" id="c0-v1" value="c0-v1" v-model="choice0" checked>
+              <input type="radio" name="choice-0" id="c0-v1" value="c0-v1" v-model="choice0" checked>
               <label for="c0-v1">Мировой судья</label><br>
-              <input type="checkbox" name="choice-0" id="c0-v2" value="c0-v2" v-model="choice0">
+              <input type="radio" name="choice-0" id="c0-v2" value="c0-v2" v-model="choice0">
               <label for="c0-v2">Районный суд</label><br>
-              <input type="checkbox" name="choice-0" id="c0-v3" value="c0-v3" v-model="choice0">
+              <input type="radio" name="choice-0" id="c0-v3" value="c0-v3" v-model="choice0">
               <label for="c0-v3">Гарнизонный военный суд</label><br>
-              <input type="checkbox" name="choice-0" id="c0-v4" value="c0-v4" v-model="choice0">
+              <input type="radio" name="choice-0" id="c0-v4" value="c0-v4" v-model="choice0">
               <label for="c0-v4">Областной и приравненный к нему суд</label><br>
 
               <h2>1. Истец</h2>
@@ -104,7 +111,7 @@
               </template>
 
               <h2>4. Есть ли третье лицо</h2>
-              <p id='c4-h1' style="background-color: #f5a62e;">
+              <p id='c4-h1' style="background-color: #f1bb68;">
                 Изучите
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/30cce8b59fb357ee113826f9c037b00da958c7a2/">Главу 5 ГПК РФ</a>
                 о представителе в суде
@@ -138,9 +145,13 @@
               </div>
 
               <h2>5. Цена иска</h2>
-              <p id='c5-h1' style="background-color: #f5a62e;">
+              <p id='c5-h1' style="background-color: #f1bb68;">
                 Особенности определения цены иска –
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/7323db566b767e88542acc5ac8c780f5b6ef8e1c/">ст. 91 ГПК РФ</a>
+              </p>
+
+              <p id='c5-h2' style="background-color: #f1bb68;">
+                В данном случае цена иска <span v-if="needs_price_7 || needs_price_8">должна быть указана</span><span v-else>не должна быть указана</span>
               </p>
 
               <input type="radio" name="choice-5" id="c5-v1" value="c5-v1" checked>
@@ -150,11 +161,11 @@
 
               <h2>6. Государственная пошлина</h2>
               <div v-if='needs_tax'>
-                <p id='c6-h1' style="background-color: #f5a62e;">
+                <p id='c6-h1' style="background-color: #f1bb68;">
                   Рассчитать размер государственной пошлины Вы можете с помощью
                   <a href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
                 </p>
-                <p id='c6-h2' style="background-color: #f5a62e;">
+                <p id='c6-h2' style="background-color: #f1bb68;">
                   Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
                   <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
                 </p>
@@ -227,16 +238,18 @@
                 </div>
               </div>
               <div v-else>
-                <p> Право на освобождение от уплаты государственной пошлины согласно пп. 19 п. 1 ст. 333.36 НК РФ </p>
+                  <input type="radio" name="choice-6" id="c6-v29" value="c6-v29" checked>
+                  <label for='c6-v29'>Право на освобождение от уплаты государственной пошлины согласно пп. 19 п. 1 ст. 333.36 НК РФ</label>
               </div>
 
               <h2>7. Основные требования</h2>
+              <div @change='onChange7()'>
               <input type="radio" name="choice-7" id="c7-v1" value="c7-v1" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v1">О взыскании задолженности по гражданско-правовому договору</label><br>
               <input type="radio" name="choice-7" id="c7-v2" value="c7-v2" v-model="choice7" v-on:click="show('c7-block1')">
               <label for="c7-v2">О возврате неосновательного обогащения</label><br>
               <div id='c7-block1' style="display: none; margin-left: 2.5rem;">
-                <input type="radio" name="choice-7" id="c7-v3" value="c7-v3" v-model="choice7" v-on:click="show('c7-block1-1'); hide('c7-block1-2'); hide('c7-block1-3');">
+                <input type="radio" name="choice-7" id="c7-v3" value="c7-v3" v-model="choice7" v-on:click="show('c7-block1-1'); hide('c7-block1-2'); hide('c7-block1-3'); click('c7-v4');">
                 <label for="c7-v3">О возврате неосновательно переданного права</label><br>
                 <div id='c7-block1-1' style="display: none; margin-left: 5rem;">
                   <div>Неосновательное обогащение вытекает из договора</div>
@@ -245,7 +258,7 @@
                   <input type="radio" name="choice-7" id="c7-v5" value="c7-v5" v-model="choice7">
                   <label for="c7-v5">Нет</label><br>
                 </div>
-                <input type="radio" name="choice-7" id="c7-v6" value="c7-v6" v-model="choice7" v-on:click="show('c7-block1-2'); hide('c7-block1-1'); hide('c7-block1-3')">
+                <input type="radio" name="choice-7" id="c7-v6" value="c7-v6" v-model="choice7" v-on:click="show('c7-block1-2'); hide('c7-block1-1'); hide('c7-block1-3'); click('c7-v7');">
                 <label for="c7-v6">О возврате переданного имущества в натуре</label><br>
                 <div id='c7-block1-2' style="display: none; margin-left: 5rem;">
                   <div>Передавалась с имуществом какая-либо сопроводительная документация</div>
@@ -254,12 +267,12 @@
                   <input type="radio" name="choice-7" id="c7-v8" value="c7-v8" v-model="choice7">
                   <label for="c7-v8">Нет</label><br>
                   <div>Неосновательное обогащение вытекает из договора</div>
-                  <input type="radio" name="choice-7" id="c7-v9" value="c7-v9" v-model="choice7">
+                  <input type="radio" name="choice-7-1" id="c7-v9" value="c7-v9" v-model="choice71">
                   <label for="c7-v9">Да</label><br>
-                  <input type="radio" name="choice-7" id="c7-v10" value="c7-v10" v-model="choice7">
+                  <input type="radio" name="choice-7-1" id="c7-v10" value="c7-v10" v-model="choice71">
                   <label for="c7-v10">Нет</label><br>
                 </div>
-                <input type="radio" name="choice-7" id="c7-v11" value="c7-v11" v-model="choice7" v-on:click="show('c7-block1-3'); hide('c7-block1-1'); hide('c7-block1-2')">
+                <input type="radio" name="choice-7" id="c7-v11" value="c7-v11" v-model="choice7" v-on:click="show('c7-block1-3'); hide('c7-block1-1'); hide('c7-block1-2'); click('c7-v12');">
                 <label for="c7-v11">О взыскании стоимости имущества либо по денежным требованиям из неосновательного обогащения</label><br>
                 <div id='c7-block1-3' style="display: none; margin-left: 5rem;">
                   <div>Неосновательное обогащение вытекает из договора</div>
@@ -271,7 +284,7 @@
               </div>
 
               <input type="radio" name="choice-7" id="c7-v14" value="c7-v14" v-model="choice7" v-on:click="hide('c7-block1')">
-              <label for="c7-v14">О возмещении вреда</label><br>
+              <label for="c7-v14">О возмещении вреда (по обязательствам из причинения вреда, кроме компенсации морального вреда)</label><br>
               <input type="radio" name="choice-7" id="c7-v15" value="c7-v15" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v15">О возмещении убытков</label><br>
               <input type="radio" name="choice-7" id="c7-v16" value="c7-v16" v-model="choice7" v-on:click="hide('c7-block1')">
@@ -284,16 +297,18 @@
               <label for="c7-v19">О восстановлении на работе</label><br>
               <input type="radio" name="choice-7" id="c7-v20" value="c7-v20" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v20">О восстановлении пропущенного срока</label><br>
-              <input type="radio" name="choice-7" id="c7-v21" value="c7-v21" v-model="choice7">
+              <input type="radio" name="choice-7" id="c7-v21" value="c7-v21" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v21">Об обязании нотариуса совершить нотариальное действие</label><br>
-              <input type="radio" name="choice-7" id="c7-v22" value="c7-v22" v-model="choice7">
+              <input type="radio" name="choice-7" id="c7-v22" value="c7-v22" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v22">Об обязании исполнить обязательство в натуре по договору</label><br>
-              <input type="radio" name="choice-7" id="c7-v23" value="c7-v23" v-model="choice7">
+              <input type="radio" name="choice-7" id="c7-v23" value="c7-v23" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v23">Об обязании устранить недостатки</label><br>
-              <input type="radio" name="choice-7" id="c7-v24" value="c7-v24" v-model="choice7">
+              <input type="radio" name="choice-7" id="c7-v24" value="c7-v24" v-model="choice7" v-on:click="hide('c7-block1')">
               <label for="c7-v24">Об обязании передать индивидуально-определенную вещь в соответствии с условиями обязательства (кроме неосновательного обогащения)</label><br>
+              </div>
 
               <h2>8. Дополнительные требования</h2>
+              <div @change='onChange8()'>
               <input type="checkbox" name="choice-8" id="c8-v1" value="c8-v1" v-model="choice8">
               <label for="c8-v1">О взыскании процентов за пользование чужими денежными средствами</label><br>
               <input type="checkbox" name="choice-8" id="c8-v2" value="c8-v2" v-model="choice8">
@@ -302,9 +317,12 @@
               <label for="c8-v3">О взыскании компенсации морального вреда</label><br>
               <input type="checkbox" name="choice-8" id="c8-v4" value="c8-v4" v-model="choice8">
               <label for="c8-v4">О взыскании расходов на услуги представителя</label><br>
+              <input type="checkbox" name="choice-8" id="c8-v5" value="c8-v5" v-model="choice8">
+              <label for="c8-v5">О взыскании расходов на услуги представителя</label><br>
+              </div>
 
               <h2>9. Соблюден ли досудебный порядок урегулирования спора</h2>
-              <p id='c9-h1' style="background-color: #f5a62e;">
+              <p id='c9-h1' style="background-color: #f1bb68;">
                 По некоторым категориям дел соблюдение досудебного порядка урегулирования спора обязательно!
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
               </p>
@@ -321,7 +339,7 @@
               <label for="c10-v2">Нет</label><br>
 
               <h2>11. Предъявляется ли иск в защиту прав потребителей</h2>
-              <p id='c11-h1' style="background-color: #f5a62e;">
+              <p id='c11-h1' style="background-color: #f1bb68;">
                 По некоторым категориям дел соблюдение досудебного порядка урегулирования спора обязательно!
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
               </p>
@@ -339,21 +357,26 @@
               <input type="radio" name="choice-11" id="c11-v4" value="c11-v4" v-model="choice11" v-on:click="hide('c11-block1')">
               <label for="c11-v4">Нет</label><br>
 
-              <input type="submit" value="Convert to Word!">
-              <input type="button" value="print" v-on:click="send">
+              <input type="submit" value="download docx">
+              <input type="button" value="show PDF" v-on:click="showPDF">
+              <input type="button" value="update PDF" v-on:click="updatePDF">
             </form>
           </b-col>
 
           <b-col>
-            <p v-on:click='ask'>SHOW</p>
-            <div v-html="api_resp"></div>
+            <!-- <p v-on:click='ask'>SHOW</p> -->
+            <!-- <div v-html="api_resp"></div> -->
+            <div id='pdf-container'>
+              <!-- <canvas id="the-canvas"></canvas> -->
+            </div>
           </b-col>
 
-      <!-- <button v-on:click="ask">ASK!</button> -->
         </b-row>
       </b-container>
     </div>
     {% load static %}
+    <script src="{% static 'pdf.js' %}"></script>
+    <!-- <script src="{% static 'common.js' %}"></script> -->
     <script src="{% static 'main.js' %}"></script>  
   </body>
 </html>

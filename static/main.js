@@ -29,7 +29,7 @@ Vue.config.productionTip = false
 var app = new Vue({
   el: '#app',
   data: {
-    choice0: ["c0-v1"],
+    choice0: "c0-v1",
     // choice1: "c1-v1",
     choice1: [
       {val: "c1-v1"}
@@ -46,11 +46,14 @@ var app = new Vue({
     choice5: "c5-v1",
     choice6: "c6-v1",
     choice7: "c7-v1",
+    choice71: "c7-v9",
     choice8: ["c8-v1"],
     choice9: "c9-v1",
     choice10: "c10-v1",
     choice11: "c11-v1",
     needs_tax: true,
+    needs_price_7: true,
+    needs_price_8: true,
     api_resp: '',
   },
   methods: {
@@ -78,6 +81,65 @@ var app = new Vue({
         }
       }
     },
+    onChange7() {
+      if (['c7-v1','c7-v2','c7-v3',
+           'c7-v4','c7-v5','c7-v6',
+           'c7-v7','c7-v7','c7-v9',
+           'c7-v10','c7-v11','c7-v12',
+           'c7-v13','c7-v14','c7-v15', 'c7-v24',
+          ].includes(this.choice7)) {
+        // this.choice5 = 'c5-v1'
+        // document.getElementById('c5-v1').click()
+        // document.getElementById('c5-v1').disabled = true
+        this.needs_price_7 = true;
+      } else {
+        // this.choice5 = 'c5-v2'
+        // document.getElementById('c5-v2').click()
+        // document.getElementById('c5-v2').disabled = true
+        this.needs_price_7 = false;
+      }
+
+      if (this.needs_price_7 || this.needs_price_8) {
+        this.choice5 = 'c5-v1'
+        document.getElementById('c5-v1').click()
+        // document.getElementById('c5-v1').disabled = true
+        // document.getElementById('c5-v2').disabled = true
+      } else {
+        this.choice5 = 'c5-v2'
+        document.getElementById('c5-v2').click()
+        // document.getElementById('c5-v1').disabled = true
+        // document.getElementById('c5-v2').disabled = true
+      }
+
+      console.log('NEEDS PRICE?')
+      console.log(this.needs_price_7 || this.needs_price_8)
+    },
+    onChange8() {
+      if (this.choice8.length == 1 && this.choice8[0] == 'c8-v3') {
+        this.needs_price_8 = false;
+      } else {
+        this.needs_price_8 = true;
+      }
+
+      if (this.needs_price_7 || this.needs_price_8) {
+        this.choice5 = 'c5-v1'
+        // document.getElementById('c5-v1').disabled = false
+        // document.getElementById('c5-v2').disabled = false
+        document.getElementById('c5-v1').click()
+        // document.getElementById('c5-v1').disabled = true
+        // document.getElementById('c5-v2').disabled = true
+      } else {
+        this.choice5 = 'c5-v2'
+        // document.getElementById('c5-v1').disabled = false
+        // document.getElementById('c5-v2').disabled = false
+        document.getElementById('c5-v2').click()
+        // document.getElementById('c5-v1').disabled = true
+        // document.getElementById('c5-v2').disabled = true
+      }
+
+      console.log('NEEDS PRICE?')
+      console.log(this.needs_price_7 || this.needs_price_8)
+    },
     send: function () {
       console.log('choice 0' + ' ' + this.choice0);
       console.log('choice 1' + ' ' + this.choice1);
@@ -93,11 +155,35 @@ var app = new Vue({
       console.log('choice 11' + ' ' + this.choice11);
     },
     ask: function () {
-      // alert('KEK')
-      Template.show().then(response => {
-        this.api_resp = response.text
-        console.log(this.api_resp)
-      })
+      alert(pdfjsLib)
+      // Template.show().then(response => {
+      //   this.api_resp = response.text
+      //   console.log(this.api_resp)
+      // })
+    },
+
+    showPDF: function() {
+      getPDF()
+    },
+
+    updatePDF: function() {
+      f = document.forms[0]
+      var bodyFormData = new FormData(f)
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/schemegen/front/',
+        data: bodyFormData,
+        headers: {'Content-Type': 'multipart/form-data' }
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response)
+            getPDF()
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response)
+        });
     }
   }
 })

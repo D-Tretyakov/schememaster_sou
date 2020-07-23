@@ -1,6 +1,13 @@
-// frontend/src/api/common.js
-import axios from 'axios'
+// import axios from 'axios'
 
-export const HTTP = axios.create({
-  baseURL: 'http://localhost:8000/schemegen/'
+const HTTP = axios.create({
+  baseURL: 'http://127.0.0.1:8000/schemegen/'
 })
+
+const Template = {
+  show () {
+    return HTTP.get('/front').then(response => {
+      return response.data
+    })
+  }
+}

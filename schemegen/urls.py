@@ -10,4 +10,6 @@ urlpatterns = [
     path('front/', views.get_text, name='from_frontend'),
     path('pass/', views.pass_func, name='pass_func'),
     path('pretty/', views.pretty_print, name='pretty'),
+    path('download/', views.download, name='download'),
+    path('download-doc/', views.download_doc, name='download-doc')
 ]
