@@ -13,8 +13,9 @@ import json
 import re
 import os
 
-from .models import Tree, Choice, Variant, Schema, Template, TextAlias
-from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
+from .models import Template, TextAlias
+# from .models import Tree, Choice, Variant, Schema, Template, TextAlias
+# from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
 
 
 def index(request):
@@ -283,41 +284,41 @@ def pass_func(request):
 
     return Response({'text': schema})
 
-@api_view()
-def get_full_tree(request, tree_id):
-    tree = Tree.objects.get(id=tree_id)
+# @api_view()
+# def get_full_tree(request, tree_id):
+#     tree = Tree.objects.get(id=tree_id)
     
-    return Response({
-        'tree_name': tree.name,
-        'choices': { choice.choice_text : 
-            [variant.variant_text for variant in choice.variant_set.all()]
-            for choice in tree.choice_set.all()}
-    })
+#     return Response({
+#         'tree_name': tree.name,
+#         'choices': { choice.choice_text : 
+#             [variant.variant_text for variant in choice.variant_set.all()]
+#             for choice in tree.choice_set.all()}
+#     })
 
-class TreeViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Tree.objects.all()
-    serializer_class = TreeSerializer
+# class TreeViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Tree.objects.all()
+#     serializer_class = TreeSerializer
 
-class ChoiceViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Choice.objects.all()
-    serializer_class = ChoiceSerializer
+# class ChoiceViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Choice.objects.all()
+#     serializer_class = ChoiceSerializer
 
-class VariantViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Variant.objects.all()
-    serializer_class = VariantSerializer
+# class VariantViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Variant.objects.all()
+#     serializer_class = VariantSerializer
 
-class SchemaViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Schema.objects.all()
-    serializer_class = SchemaSerializer
+# class SchemaViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Schema.objects.all()
+#     serializer_class = SchemaSerializer

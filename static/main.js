@@ -171,7 +171,7 @@ var app = new Vue({
       var bodyFormData = new FormData(f)
       axios({
         method: 'post',
-        url: 'http://127.0.0.1:8000/schemegen/front/',
+        url: document.URL + 'front/',
         data: bodyFormData,
         headers: {'Content-Type': 'multipart/form-data' }
         })
