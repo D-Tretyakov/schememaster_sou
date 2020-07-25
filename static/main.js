@@ -45,8 +45,17 @@ var app = new Vue({
     ],
     choice5: "c5-v1",
     choice6: "c6-v1",
-    choice7: "c7-v1",
-    choice71: "c7-v9",
+    choice7: ["c7-v1"],
+    show_opt1: false,
+    show_opt23: false,
+    show_opt4: false,
+    choice7options: [
+      {option1: ''},
+      {option2: ''},
+      {option3: ''},
+      {option4: ''},
+    ],
+    // choice71: "c7-v9",
     choice8: ["c8-v1"],
     choice9: "c9-v1",
     choice10: "c10-v1",
@@ -54,7 +63,6 @@ var app = new Vue({
     needs_tax: true,
     needs_price_7: true,
     needs_price_8: true,
-    api_resp: '',
   },
   methods: {
     reverseMessage: function () {
@@ -72,6 +80,19 @@ var app = new Vue({
     click: function (node_id) {
       document.getElementById(node_id).click()
     },
+    // check: function (node_id) { 
+    //   const index = this.choice7.indexOf(node_id)
+    //   if (index == -1) {
+    //     this.choice7.push(node_id)
+    //   }
+    // },
+    // uncheck: function(node_id) {
+    //   const index = this.choice7.indexOf(node_id)
+    //   if (index > -1) {
+    //     this.choice7.splice(index, 1)
+    //   }
+    //   document.getElementById('c7-block1').style.display = 'none'
+    // },
     onChange1() {
       this.needs_tax = true
       for (let i = 0; i < this.choice1.length; i++) {
@@ -81,7 +102,45 @@ var app = new Vue({
         }
       }
     },
+    onChange2() {
+      var show = false
+      for (let i = 0; i < this.choice2.length; i++) {
+        if (this.choice2[i].val === 'c2-v3') {
+          show = true;
+        }
+      }
+      console.log(show)
+      if (show) {
+        document.getElementById('c2-h1').style.display = ''
+      } else {
+        document.getElementById('c2-h1').style.display = 'none'
+      }
+    },
     onChange7() {
+      if (this.choice7.includes('c7-v2')) {
+        document.getElementById('c7-h1').style.display = ''
+      } else {
+        document.getElementById('c7-h1').style.display = 'none'
+      }
+
+      if (this.choice7.includes('c7-v15')) {
+        document.getElementById('c7-h2').style.display = ''
+      } else {
+        document.getElementById('c7-h2').style.display = 'none'
+      }
+
+      if (this.choice7.includes('c7-v16')) {
+        document.getElementById('c7-h3').style.display = ''
+      } else {
+        document.getElementById('c7-h3').style.display = 'none'
+      }
+
+      if (this.choice7.includes('c7-v20')) {
+        document.getElementById('c7-h4').style.display = ''
+      } else {
+        document.getElementById('c7-h4').style.display = 'none'
+      }
+
       if (['c7-v1','c7-v2','c7-v3',
            'c7-v4','c7-v5','c7-v6',
            'c7-v7','c7-v7','c7-v9',
@@ -115,6 +174,13 @@ var app = new Vue({
       console.log(this.needs_price_7 || this.needs_price_8)
     },
     onChange8() {
+      if (this.choice7.includes('c8-v1')) {
+        document.getElementById('c8-h1').style.display = ''
+      } else {
+        document.getElementById('c8-h1').style.display = 'none'
+      }
+
+
       if (this.choice8.length == 1 && this.choice8[0] == 'c8-v3') {
         this.needs_price_8 = false;
       } else {
@@ -169,21 +235,22 @@ var app = new Vue({
     updatePDF: function() {
       f = document.forms[0]
       var bodyFormData = new FormData(f)
+      bodyFormData.delete('c7-block1-radio')
       axios({
         method: 'post',
         url: document.URL + 'front/',
         data: bodyFormData,
         headers: {'Content-Type': 'multipart/form-data' }
-        })
-        .then(function (response) {
-            //handle success
-            console.log(response)
-            getPDF()
-        })
-        .catch(function (response) {
-            //handle error
-            console.log(response)
-        });
+      })
+      .then(function (response) {
+          //handle success
+          console.log(response)
+          getPDF()
+      })
+      .catch(function (response) {
+          //handle error
+          console.log(response)
+      });
     }
   }
 })

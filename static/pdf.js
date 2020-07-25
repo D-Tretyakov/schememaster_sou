@@ -66,7 +66,8 @@ var pdfDoc = null,
     pageNum = 1,
     pageRendering = false,
     pageNumPending = null,
-    scale = 1.5;
+    // pagesToRender = []
+    scale = 1.25;
     // canvas = document.getElementById('the-canvas'),
     // ctx = canvas.getContext('2d');
 
@@ -74,14 +75,16 @@ var pdfDoc = null,
  * Get page info from document, resize canvas accordingly, and render page.
  * @param num Page number.
  */
-function renderPage(num) {
+async function renderPage(num) {
   pageRendering = true;
   // Using promise to fetch the page
   pdfDoc.getPage(num).then(function(page) {
+    console.log('rendering ' + num);
     var viewport = page.getViewport({scale: scale});
     canvas = document.getElementById('canvas-' + num);
     canvas.height = viewport.height;
     canvas.width = viewport.width;
+    console.log('got page ' + num);
 
     // Render PDF page into canvas context
     var renderContext = {
@@ -100,49 +103,62 @@ function renderPage(num) {
       }
     });
   });
+  return 'Done';
 }
 
-function queueRenderPage(num) {
-  if (pageRendering) {
-    pageNumPending = num;
-  } else {
-    renderPage(num);
-  }
-}
+// function queueRenderPage(num) {
+//   console.log('QUEUE');
+//   console.log(pagesToRender);
+//   if (pageRendering) {
+//     pageNumPending = num;
+//     // pagesToRender.push(num);
+//   } else {
+//     console.log('send to render page ' + num);
+//     // var n = pagesToRender.shift();
+//     renderPage(num);
+//   }
+// }
 
-function onNextPage() {
-  if (pageNum >= pdfDoc.numPages) {
-    return;
-  }
-  pageNum++;
-  queueRenderPage(pageNum);
-}
+// function onNextPage() {
+//   if (pageNum >= pdfDoc.numPages) {
+//     return;
+//   }
+//   pageNum++;
+//   queueRenderPage(pageNum);
+// }
 
 function getPDF() {
-  pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfjsLib.getDocument(url).promise.then(async function(pdfDoc_) {
     pdfDoc = pdfDoc_;
     // document.getElementById('page_count').textContent = pdfDoc.numPages;
+    document.getElementById('pdf-container').innerHTML = '';
     for (var i = 1; i <= pdfDoc.numPages; i++) {
       var canvas = document.getElementById('canvas-' + i);
-      if(typeof(canvas) != 'undefined' && canvas != null){
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-      } else{
-        canvas = document.createElement("canvas");
-        canvas.id = 'canvas-' + i;
-        // document.getElementById("pdf-container").appendChild(canvas);
-        var element = document.getElementById("pdf-container");
-        element.appendChild(canvas);
-      }
+      // if(typeof(canvas) != 'undefined' && canvas != null){
+      //   const context = canvas.getContext('2d');
+      //   context.clearRect(0, 0, canvas.width, canvas.height);
+      // } else{
+      canvas = document.createElement("canvas");
+      canvas.id = 'canvas-' + i;
+      // document.getElementById("pdf-container").appendChild(canvas);
+      var element = document.getElementById("pdf-container");
+      element.appendChild(canvas);
+      // }
+      // pagesToRender.push(num);
+    }
+
+    for (var i = 1; i <= pdfDoc.numPages; i++) {
+      await renderPage(i);
     }
     
     // Initial/first page rendering
-    renderPage(pageNum);
+    // renderPage(pageNum);
     
-    for (var i = 2; i <= pdfDoc.numPages; i++) {
-      onNextPage();
-    }
+    // for (var i = 2; i <= pdfDoc.numPages; i++) {
+    //   console.log('SEND');
+    //   onNextPage();
+    // }
 
-    pageNum = 1;
+    // pageNum = 1;
   });
 }

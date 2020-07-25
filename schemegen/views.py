@@ -9,36 +9,40 @@ from rest_framework.decorators import api_view
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docxtpl import DocxTemplate
+from datetime import datetime
 import json
 import re
 import os
 
 from .models import Template, TextAlias
-# from .models import Tree, Choice, Variant, Schema, Template, TextAlias
-# from .serializers import TreeSerializer, ChoiceSerializer, VariantSerializer, SchemaSerializer
-
 
 def index(request):
-    context = {}
+    if not request.session or not request.session.session_key:
+        request.session.save()
+    context = {
+        'full_path':  request.build_absolute_uri(),
+        'session_key': request.session.session_key
+    }
     return render(request, 'schemegen/index.html', context)
 
-def get_tree(request, tree_id):
-    tree_ids = {tree.id: tree.name for tree in Tree.objects.all()}
-    tree = Tree.objects.get(id=tree_id)
-    context = {'tree': tree, 'tree_ids': tree_ids}
-    return render(request, 'schemegen/tree.html', context)
+# def get_tree(request, tree_id):
+#     tree_ids = {tree.id: tree.name for tree in Tree.objects.all()}
+#     tree = Tree.objects.get(id=tree_id)
+#     context = {'tree': tree, 'tree_ids': tree_ids}
+#     return render(request, 'schemegen/tree.html', context)
 
-def convert(request, tree_id):
-    print(request.POST)
-    result = [Variant.objects.get(id=int(request.POST[f'variant_choice{c.id}'])).text_repr
-            for c in Tree.objects.get(id=tree_id).choice_set.all()]
-    text = Tree.objects.get(id=tree_id).schema_set.all()[0].text_repr.format(*result)
+# def convert(request, tree_id):
+#     print(request.POST)
+#     result = [Variant.objects.get(id=int(request.POST[f'variant_choice{c.id}'])).text_repr
+#             for c in Tree.objects.get(id=tree_id).choice_set.all()]
+#     text = Tree.objects.get(id=tree_id).schema_set.all()[0].text_repr.format(*result)
 
-    return HttpResponse(text.replace('\n', '<br>'))
+#     return HttpResponse(text.replace('\n', '<br>'))
 
-def convertion(ans):
-    document = Document()     
-    document.save('demo.docx')  
+def convertion(ans, session_key):
+    document = Document()
+    fname = f'./claims/demo_{session_key}.docx'
+    document.save(fname)  
     p = document.add_paragraph()
     p.add_run('В___________________').bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -160,11 +164,11 @@ def convertion(ans):
     if ans[10] != ['']:
         document.add_paragraph('{{peace}}', style = 'List Number')
     document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t_____________ (________________)')
-    document.save('demo.docx')
-    document = DocxTemplate("demo.docx")
+    document.save(fname)
+    document = DocxTemplate(fname)
     context = { 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
-    document.save("demo.docx")
+    document.save(fname)
 
 def get_text(request):
     template = Template.objects.first()
@@ -175,81 +179,104 @@ def get_text(request):
     schema = header + body + footer
     
     req = dict(request.POST)
-    print(req)
-    if req['choice-7'][0] in ['c7-v6', 'c7-v7', 'c7-v8']:
-        req['choice-7'].extend(req['choice-7-1'])
-    del req['choice-7-1']
+    # print(req)
+    # if req['choice-7'][0] in ['c7-v6', 'c7-v7', 'c7-v8']:
+    #     req['choice-7'].extend(req['choice-7-1'])
+    # del req['choice-7-1']
+
+
 
     res = {}
     for choice in req:
+        if len(choice.split('-')) != 2:
+            continue
+
         i = int(choice.split('-')[1])
         answer = []
 
-        if choice == 'choice-7' and len(req[choice]) == 2:
-            ans0 = TextAlias.objects.get(html_id=req[choice][0]).text
-            ans1 = TextAlias.objects.get(html_id=req[choice][1]).text
-            answer.append(ans0+'\n'+ans1)
+        # if choice == 'choice-7' and len(req[choice]) == 2:
+        #     ans0 = TextAlias.objects.get(html_id=req[choice][0]).text
+        #     ans1 = TextAlias.objects.get(html_id=req[choice][1]).text
+        #     answer.append(ans0+'\n'+ans1)
             # res[i] = answer
-        else:
-            for j in req[choice]:
-                answer.append(TextAlias.objects.get(html_id=j).text)
+        if choice == 'choice-7' and 'c7-v2' in req[choice]:
+            op1 = req.get('choice-7-op1')
+            op2 = req.get('choice-7-op2')
+            op3 = req.get('choice-7-op3')
+            op4 = req.get('choice-7-op4')
+
+            if op1 is not None:
+                answer.append(TextAlias.objects.get(html_id=op1[0]).text)
+            if op2 is not None and op3 is not None:
+                ans0 = TextAlias.objects.get(html_id=op2[0]).text
+                ans1 = TextAlias.objects.get(html_id=op3[0]).text
+                answer.append(ans0 + '\n' + ans1)
+            if op4 is not None:
+                answer.append(TextAlias.objects.get(html_id=op4[0]).text)
+
+            req['choice-7'].remove('c7-v2')
         
-        res[i] = answer 
+        for j in req[choice]:
+            answer.append(TextAlias.objects.get(html_id=j).text)
+        
+        res[i] = answer
     
-    # print(res)
-    ans = [res[key] for key in sorted(res.keys())]    
-    text = schema.format(*ans)
-    convertion(res)
+    print(res)
+    # ans = [res[key] for key in sorted(res.keys())]    
+    # text = schema.format(*ans)
+    convertion(res, request.session.session_key)
     # return HttpResponse(text.replace('\n', '<br>'))
-    return HttpResponse("Шаблон скачан")
+    return HttpResponse("Success")
 
 def download(request):
-    os.system('doc2pdf --output=template demo.docx')
+    session_key = request.session.session_key
+    os.system(f'doc2pdf --output=./claims/template_{session_key} ./claims/demo_{session_key}.docx')
 
-    path = 'template.pdf'
+    path = f'./claims/template_{session_key}.pdf'
     file_path = os.path.join(settings.MEDIA_ROOT, path)
-    # print(file_path)
+    print(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response = HttpResponse(fh.read(), content_type="application/pdf")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
 
 def download_doc(request):
     # os.system('doc2pdf --output=template demo.docx')
-
-    path = 'demo.docx'
+    session_key = request.session.session_key
+    path = f'./claims/demo_{session_key}.docx'
     file_path = os.path.join(settings.MEDIA_ROOT, path)
+    dt = datetime.now()
     # print(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            response = HttpResponse(fh.read(), content_type="application/msdocx")
+            response['Content-Disposition'] = 'inline; filename=' + f'Generated_claim_{dt.strftime("%Y%m%d%H%M%S")}.docx'
             return response
     raise Http404
 
-@api_view(['POST'])
-def pretty_print(request):   
-    req = dict(request.POST)
-    del req['csrfmiddlewaretoken']
+# @api_view(['POST'])
+# def pretty_print(request):   
+#     req = dict(request.POST)
+#     del req['csrfmiddlewaretoken']
     
-    res = {}
-    for choice in req:
-        i = int(choice.split('-')[1])
-        answer = []
-        for j in req[choice]:
-            answer.append(TextAlias.objects.get(html_id=j).text)
-            res[i] = answer 
-    ans = []
-    for key in sorted(res.keys()):
-      ans.append(res[key])
+#     res = {}
+#     for choice in req:
+#         i = int(choice.split('-')[1])
+#         answer = []
+#         for j in req[choice]:
+#             answer.append(TextAlias.objects.get(html_id=j).text)
+#             res[i] = answer 
+#     ans = []
+#     for key in sorted(res.keys()):
+#       ans.append(res[key])
 
-    return Response({
-        'req': req,
-        'res':res,
-        'ans': ans,
-    })
+#     return Response({
+#         'req': req,
+#         'res':res,
+#         'ans': ans,
+#     })
 
 # def get_text(request):
 #     template = Template.objects.first()
@@ -273,52 +300,13 @@ def pretty_print(request):
 
 #     return HttpResponse(text.replace('\n', '<br>'))
 
-@api_view()
-def pass_func(request):
-    template = Template.objects.first()
-    header = "<div style='text-align: right;'>" + template.header + "</div>"
-    body = "<div style='text-align: center;'>" + template.body + "</div>"
-    footer = template.footer
-
-    schema = header + body + footer
-
-    return Response({'text': schema})
-
 # @api_view()
-# def get_full_tree(request, tree_id):
-#     tree = Tree.objects.get(id=tree_id)
-    
-#     return Response({
-#         'tree_name': tree.name,
-#         'choices': { choice.choice_text : 
-#             [variant.variant_text for variant in choice.variant_set.all()]
-#             for choice in tree.choice_set.all()}
-#     })
+# def pass_func(request):
+#     template = Template.objects.first()
+#     header = "<div style='text-align: right;'>" + template.header + "</div>"
+#     body = "<div style='text-align: center;'>" + template.body + "</div>"
+#     footer = template.footer
 
-# class TreeViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Tree.objects.all()
-#     serializer_class = TreeSerializer
+#     schema = header + body + footer
 
-# class ChoiceViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Choice.objects.all()
-#     serializer_class = ChoiceSerializer
-
-# class VariantViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Variant.objects.all()
-#     serializer_class = VariantSerializer
-
-# class SchemaViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Schema.objects.all()
-#     serializer_class = SchemaSerializer
+#     return Response({'text': schema})
