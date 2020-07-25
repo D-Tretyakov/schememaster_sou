@@ -19,10 +19,7 @@ from .models import Template, TextAlias
 def index(request):
     if not request.session or not request.session.session_key:
         request.session.save()
-    context = {
-        'full_path':  request.build_absolute_uri(),
-        'session_key': request.session.session_key
-    }
+    context = {'full_path':  request.build_absolute_uri()}
     return render(request, 'schemegen/index.html', context)
 
 # def get_tree(request, tree_id):
