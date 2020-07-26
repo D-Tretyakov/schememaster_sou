@@ -313,14 +313,14 @@ var app = new Vue({
       window.location.href="download-doc/"
     },
 
-    prepare: function() {
-      document.getElementById('c2-v1').click()
-      document.getElementById('c4-v1').click()
-    }
+    // prepare: function() {
+    //   document.getElementById('c2-v1').click()
+    //   document.getElementById('c4-v1').click()
+    // }
 
   },
   mounted: function(){
-    document.getElementById('app')
-            .addEventListener('DOMSubtreeModified', this.prepare);
+    document.getElementById('c2-v1').click()
+    document.getElementById('c4-v1').click()
   },
 })
