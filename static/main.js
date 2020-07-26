@@ -34,18 +34,42 @@ var app = new Vue({
     choice1: [
       {val: "c1-v1"}
     ],
+    select1: [
+      {value:'c1-v1', text:'Физическое лицо'},
+      {value:'c1-v2', text:'Юридическое лицо'},
+      {value:'c1-v3', text:'Государственный орган (орган местного самоуправления)'},
+      {value:'c1-v4', text:'Индивидуальный предприниматель'},
+    ],
     choice2: [
       {val: "c2-v3"}
+    ],
+    select2: [
+      {value:'c2-v3', text:'Физическое лицо'},
+      {value:'c2-v4', text:'Юридическое лицо'},
+      {value:'c2-v5', text:'Государственный орган (орган местного самоуправления)'},
+      {value:'c2-v6', text:'Индивидуальный предприниматель'},
     ],
     choice3: [
       {val: "c3-v1"}
     ],
+    select3: [
+      {value:'c3-v1', text:'Физическое лицо'},
+      {value:'c3-v2', text:'Юридическое лицо'},
+      {value:'c3-v3', text:'Государственный орган (орган местного самоуправления)'},
+      {value:'c3-v4', text:'Индивидуальный предприниматель'},
+    ],
     choice4: [
       {val: "c4-v3"}
     ],
+    select4: [
+      {value:'c4-v3', text:'Физическое лицо'},
+      {value:'c4-v4', text:'Юридическое лицо'},
+      {value:'c4-v5', text:'Государственный орган (орган местного самоуправления)'},
+      {value:'c4-v6', text:'Индивидуальный предприниматель'},
+    ],
     choice5: "c5-v1",
     choice6: "c6-v1",
-    choice6op: "",
+    choice61: [],
     choice7: ["c7-v1"],
     show_opt1: false,
     show_opt23: false,
@@ -116,7 +140,7 @@ var app = new Vue({
           show = true;
         }
       }
-      console.log(show)
+      // console.log(show)
       if (show) {
         document.getElementById('c2-h1').style.display = ''
       } else {
@@ -235,16 +259,21 @@ var app = new Vue({
       console.log('choice 10' + ' ' + this.choice10);
       console.log('choice 11' + ' ' + this.choice11);
     },
-    ask: function () {
-      alert(pdfjsLib)
-      // Template.show().then(response => {
-      //   this.api_resp = response.text
-      //   console.log(this.api_resp)
-      // })
-    },
+    // ask: function () {
+    //   alert(pdfjsLib)
+    //   // Template.show().then(response => {
+    //   //   this.api_resp = response.text
+    //   //   console.log(this.api_resp)
+    //   // })
+    // },
 
     showPDF: function() {
       getPDF()
+    },
+
+    closeUpdateAlarm: function() {
+      console.log('CLOSE');
+      this.updating = false
     },
 
     updatePDF: function() {
@@ -252,11 +281,14 @@ var app = new Vue({
         this.download_available = true
       }
 
+      document.getElementById('pdf-container')
+              .addEventListener('DOMSubtreeModified', this.closeUpdateAlarm);
+
       this.updating = true
       f = document.forms[1]
       var bodyFormData = new FormData(f)
       bodyFormData.delete('c7-block1-radio')
-      // bodyFormData.delete('choice-6-op')
+      bodyFormData.delete('choice-61')
       axios({
         method: 'post',
         url: document.URL + 'front/',
@@ -267,10 +299,10 @@ var app = new Vue({
           //handle success
           console.log(response)
           getPDF()
-          app.updating = false
       })
       .catch(function (response) {
           //handle error
+          app.updating = false
           app.error = true
           alert('Что-то пошло не так ¯\\_(ツ)_/¯')
           console.log(response)
