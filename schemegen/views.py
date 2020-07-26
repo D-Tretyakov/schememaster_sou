@@ -272,7 +272,7 @@ def get_text(request):
     schema = header + body + footer
     
     req = dict(request.POST)
-    # print(req)
+    print(req)
     # if req['choice-7'][0] in ['c7-v6', 'c7-v7', 'c7-v8']:
     #     req['choice-7'].extend(req['choice-7-1'])
     # del req['choice-7-1']

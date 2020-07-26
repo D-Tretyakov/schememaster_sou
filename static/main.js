@@ -296,22 +296,31 @@ var app = new Vue({
         headers: {'Content-Type': 'multipart/form-data' }
       })
       .then(function (response) {
-          //handle success
-          console.log(response)
-          getPDF()
+        //handle success
+        console.log(response)
+        getPDF()
       })
       .catch(function (response) {
-          //handle error
-          app.updating = false
-          app.error = true
-          alert('Что-то пошло не так ¯\\_(ツ)_/¯')
-          console.log(response)
+        //handle error
+        app.updating = false
+        app.error = true
+        alert('Что-то пошло не так ¯\\_(ツ)_/¯')
+        console.log(response)
       });
     },
 
     download: function() {
       window.location.href="download-doc/"
+    },
+
+    prepare: function() {
+      document.getElementById('c2-v1').click()
+      document.getElementById('c4-v1').click()
     }
 
+  },
+  mounted: function(){
+    document.getElementById('app')
+            .addEventListener('DOMSubtreeModified', this.prepare);
   },
 })
