@@ -14,8 +14,24 @@
 
     <title>schememaster VUE</title>
   </head>
-  <body>
+  <body >
     <div id="app">
+      <div>
+        <b-navbar type="dark" variant="info" sticky>
+          <b-navbar-brand href="#">Лучший</b-navbar-brand>
+          <b-nav-form>
+            <b-button-group>
+              <b-button @click='updatePDF()'>Предпросмотр</b-button>
+            </b-button-group>
+            <!-- <b-nav-form action="{{full_path}}download-doc/" method="POST">
+              <b-button type="submit">Search</b-button>
+              <b-button @click='updatePDF'>Search</b-button> -->
+            </b-nav-form>
+          </b-nav-form>
+        </b-navbar>
+      </div>
+
+
       <!-- {{showPDF}} -->
       <b-container fluid>
         <b-row>
@@ -367,6 +383,16 @@
           </b-col>
 
           <b-col>
+
+            <div>
+              <b-alert v-model="updating" variant="info" dismissible>
+                Обновляем предпросмотр
+              </b-alert>
+              <b-alert v-model="error" variant="danger" dismissible>
+                Пиздец
+              </b-alert>
+            </div>
+
             <!-- <p v-on:click='ask'>SHOW</p> -->
             <!-- <div v-html="api_resp"></div> -->
             <div id='pdf-container'>

@@ -148,7 +148,7 @@ function getPDF() {
     }
 
     for (var i = 1; i <= pdfDoc.numPages; i++) {
-      await renderPage(i);
+      a = await renderPage(i);
     }
     
     // Initial/first page rendering

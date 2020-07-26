@@ -63,6 +63,9 @@ var app = new Vue({
     needs_tax: true,
     needs_price_7: true,
     needs_price_8: true,
+
+    updating: false,
+    error: false,
   },
   methods: {
     reverseMessage: function () {
@@ -233,7 +236,8 @@ var app = new Vue({
     },
 
     updatePDF: function() {
-      f = document.forms[0]
+      this.updating = true
+      f = document.forms[1]
       var bodyFormData = new FormData(f)
       bodyFormData.delete('c7-block1-radio')
       axios({
@@ -246,11 +250,14 @@ var app = new Vue({
           //handle success
           console.log(response)
           getPDF()
+          // this.updating = false
       })
       .catch(function (response) {
           //handle error
+          alert('Произошел пиздец')
           console.log(response)
       });
-    }
-  }
+    },
+
+  },
 })
