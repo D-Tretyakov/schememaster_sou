@@ -102,7 +102,7 @@ def convertion(ans, session_key):
     k = 0
     l = []
     for i in ans[7]:
-        res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+        res = re.split(r'[1]\d*.|\n[2,3]\d*.|\r\n[2,3]\d*.',i)
         res.pop(0)
         l.append(res)
         if i == ans[7][-1]:
@@ -129,23 +129,27 @@ def convertion(ans, session_key):
     for i in ans[7]:
         k+=1
         document.add_paragraph('%i.' %k + i[1])
+    l = []
     for i in ans[8]:
+        l.append(i[0])
+    res = set(l)
+    for i in res:
         k+=1
-        document.add_paragraph('%i.' %k + i[0])
+        document.add_paragraph('%i.' %k + i)
     if ans[11]!= ['']:
         k+=1
         document.add_paragraph('%i.' %k + '{{potrebiteli}}')
     p = document.add_paragraph()
     p.add_run('Приложение:').bold = True
     if ans[6] != ['']:
-        document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)', style = 'List Number')
+        document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.', style = 'List Number')
     document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
     if ans[2][0]!= '':
         document.add_paragraph('{{complainant}}', style = 'List Number')
     for i in ans[7]:
         if i[2] != '':
-            res = re.split('\n',i[2])
+            res = re.split('\n|\r\n',i[2])
             document.add_paragraph(res[0], style = 'List Number')
             if len(res) > 1:
                 for j in res[1:]:
@@ -155,7 +159,7 @@ def convertion(ans, session_key):
         l.append(i[1])
     res = set(l)
     for i in res:
-        document.add_paragraph(res, style = 'List Number')
+        document.add_paragraph(i, style = 'List Number')
     if ans[9] != ['']:
         document.add_paragraph('{{regulation}}', style = 'List Number')
     if ans[10] != ['']:
