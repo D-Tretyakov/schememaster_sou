@@ -213,11 +213,11 @@ var app = new Vue({
       console.log(this.needs_price_7 || this.needs_price_8)
     },
     onChange8() {
-      if (this.choice7.includes('c8-v1')) {
-        document.getElementById('c8-h1').style.display = ''
-      } else {
-        document.getElementById('c8-h1').style.display = 'none'
-      }
+      // if (this.choice8.includes('c8-v1')) {
+      //   document.getElementById('c8-h1').style.display = ''
+      // } else {
+      //   document.getElementById('c8-h1').style.display = 'none'
+      // }
 
 
       if (this.choice8.length == 1 && this.choice8[0] == 'c8-v3') {
@@ -319,9 +319,10 @@ var app = new Vue({
     // }
 
   },
-  mounted: function(){
+  mounted: function mounted () {
     document.getElementById('c2-v1').click()
     document.getElementById('c4-v1').click()
-    // this.getPDF()
+    // alert(this.choice0)
+    this.updatePDF()
   },
 })
