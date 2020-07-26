@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!-- Tahoma, Verdana, sans-seriwf -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
@@ -17,10 +17,12 @@
   <body >
     <div id="app">
       <div>
-        <b-navbar type="dark" variant="info" sticky>
+        <b-navbar type="light" variant='info' sticky>
           <b-navbar-brand href="#">Лучший</b-navbar-brand>
           <b-nav-form>
             <b-button-group>
+              <!-- <p v-if='download_available'> down</p> -->
+              <b-button v-if='download_available' @click='download()'>Скачать</b-button>
               <b-button @click='updatePDF()'>Предпросмотр</b-button>
             </b-button-group>
             <!-- <b-nav-form action="{{full_path}}download-doc/" method="POST">
@@ -56,7 +58,12 @@
               <label for="c0-v4">Областной и приравненный к нему суд</label><br>
 
               <h2>1. Истец</h2>
-              <input type="button" value="-" @click='choice1.pop(); onChange1()'>
+              <p v-if='choice1.length > 1' id='c1-h1' style="background-color: #f1bb68;">
+                В случае, если за совершением юридически значимого действия одновременно обратились несколько плательщиков, государственная пошлина уплачивается плательщиками в равных долях
+                <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/d6ee56e108108807503db3f4f9f375c9c296cd44/">(п. 2 ст. 333.18 НК РФ)</a>
+              </p>
+
+              <input type="button" value="-" @click='choice1.length > 1 ? choice1.pop() : ""; onChange1()'>
               <input type="button" value="+" @click='choice1.push({val: ""}); onChange1()'><br>
               <template v-for="field in choice1">
                 <select name="choice-1" @change="onChange1()" v-model="field.val">
@@ -82,7 +89,7 @@
                 <label for="c2-v2">Есть</label><br>
                 
                 <div id="c2-block1" style="display: none; margin-left: 2.5rem;">
-                  <input type="button" value="-" @click='choice2.pop()'>
+                  <input type="button" value="-" @click='choice2.length > 1 ? choice2.pop() : "";'>
                   <input type="button" value="+" @click='choice2.push({val: ""})'><br>
                   <template v-for="field in choice2">
                     <select name="choice-2" v-model="field.val">
@@ -97,7 +104,7 @@
               </div>
 
               <h2>3. Ответчик</h2>
-              <input type="button" value="-" @click='choice3.pop()'>
+              <input type="button" value="-" @click='choice3.length > 1 ? choice3.pop() : "";'>
               <input type="button" value="+" @click='choice3.push({val: ""})'><br>
               <template v-for="field in choice3">
                 <select name="choice-3" v-model="field.val">
@@ -114,11 +121,11 @@
               <div>
                 <input type="radio" name="choice-4" id="c4-v1" value="c4-v1" checked v-on:click="hide('c4-block1')">
                 <label for="c4-v1">Нет</label><br>
-                <input type="radio" name="choice-4" id="c4-v2" value="c4-v2" v-on:click="show('c4-block1'); click('c4-v3')">
+                <input type="radio" name="choice-4" id="c4-v2" value="c4-v2" v-on:click="show('c4-block1')">
                 <label for="c4-v2">Есть</label><br>
 
                 <div id="c4-block1" style="display: none; margin-left: 2.5rem;">
-                  <input type="button" value="-" @click='choice4.pop()'>
+                  <input type="button" value="-" @click='choice4.length > 1 ? choice4.pop() : "";'>
                   <input type="button" value="+" @click='choice4.push({val: ""})'><br>
                   <template v-for="field in choice4">
                     <select name="choice-4" v-model="field.val">
@@ -179,27 +186,27 @@
                 <label for="c6-v1">Отсутствует право на освобождение от уплаты государственной пошлины</label><br>
 
                 <div id='c6-block0' style="margin-left: 2.5rem;">
-                  <input type="radio" name="choice-6-op" id="c6-op-v1" value="c6-op-v1" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v1" value="c6-op-v1" v-model="choice6op">
                   <label for="c6-op-v1">Исковое заявление имущественного характера (пп.1 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v2" value="c6-op-v2" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v2" value="c6-op-v2" v-model="choice6op">
                   <label for="c6-op-v2">Административное исковое заявление имущественного характера (пп.1 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v3" value="c6-op-v3" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v3" value="c6-op-v3" v-model="choice6op">
                   <label for="c6-op-v3">Исковое заявление имущественного характера, не подлежащее оценке (пп.3 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v4" value="c6-op-v4" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v4" value="c6-op-v4" v-model="choice6op">
                   <label for="c6-op-v4">Исковое заявление неимущественного характера (пп.3 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v5" value="c6-op-v5" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v5" value="c6-op-v5" v-model="choice6op">
                   <label for="c6-op-v5">Исковое заявление о расторжении брака (пп.5 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v6" value="c6-op-v6" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v6" value="c6-op-v6" v-model="choice6op">
                   <label for="c6-op-v6">Административное исковое заявление об оспаривании (полностью или частично) нормативных правовых актов (нормативных актов) государственных органов, Центрального банка РФ, государственных внебюджетных фондов, органов местного самоуправления, государственных корпораций, должностных лиц, а также административного искового заявления об оспаривании ненормативных правовых актов Президента РФ, Совета Федерации Федерального Собрания РФ, Государственной Думы Федерального Собрания РФ, Правительства РФ, Правительственной комиссии по контролю за осуществлением иностранных инвестиций в РФ (пп.6 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v7" value="c6-op-v7" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v7" value="c6-op-v7" v-model="choice6op">
                   <label for="c6-op-v7">Административное исковое заявление об оспаривании актов федеральных органов исполнительной власти, иных федеральных государственных органов, Центрального банка РФ, государственных внебюджетных фондов, содержащих разъяснения законодательства и обладающих нормативными свойствами (пп.6.1 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v8" value="c6-op-v8" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v8" value="c6-op-v8" v-model="choice6op">
                   <label for="c6-op-v8">Административное исковое заявление о признании ненормативного правового акта недействительным и о признании решений и действий (бездействия) государственных органов, органов местного самоуправления, иных органов, должностных лиц незаконными (пп.7 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v9" value="c6-op-v9" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v9" value="c6-op-v9" v-model="choice6op">
                   <label for="c6-op-v9">Исковое заявление о взыскании алиментов (пп.14 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v10" value="c6-op-v10" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v10" value="c6-op-v10" v-model="choice6op">
                   <label for="c6-op-v10">Административное исковое заявление о присуждении компенсации за нарушение права на судопроизводство в разумный срок или права на исполнение судебного акта в разумный срок (пп.15 п.1 ст.333.19 НК РФ)</label><br>
-                  <input type="radio" name="choice-6-op" id="c6-op-v11" value="c6-op-v11" v-model="choice6op">
+                  <input type="radio" name="choice-61" id="c6-op-v11" value="c6-op-v11" v-model="choice6op">
                   <label for="c6-op-v11">Административное исковое заявление о присуждении компенсации за нарушение условий содержания под стражей, содержания в исправительном учреждении (пп.16 п.1 ст.333.19 НК РФ)</label><br>
                 </div>
 
@@ -338,23 +345,27 @@
               <input type="checkbox" name="choice-7" id="c7-v16" value="c7-v16" v-model="choice7">
               <label for="c7-v16">О признании сделки недействительной</label><br>
               <input type="checkbox" name="choice-7" id="c7-v17" value="c7-v17" v-model="choice7">
-              <label for="c7-v17">О признании права собственности на недвижимое имущество</label><br> 
+              <label for="c7-v17">О признании права собственности на недвижимое имущество</label><br>
+              <!-- <div v-if='choice7==c7-v17'>
+                Иск связан с правами на имущество?
+              </div> -->
+
               <input type="checkbox" name="choice-7" id="c7-v18" value="c7-v18" v-model="choice7">
-              <label for="c7-v17">О признании права собственности на движимую вещь</label><br> 
+              <label for="c7-v18">О признании права собственности на движимую вещь</label><br> 
               <input type="checkbox" name="choice-7" id="c7-v19" value="c7-v19" v-model="choice7">
-              <label for="c7-v18">О восстановлении в праве (кроме неосновательной передачи права)</label><br>
+              <label for="c7-v19">О восстановлении в праве (кроме неосновательной передачи права)</label><br>
               <input type="checkbox" name="choice-7" id="c7-v20" value="c7-v20" v-model="choice7">
-              <label for="c7-v19">О восстановлении на работе</label><br>
+              <label for="c7-v20">О восстановлении на работе</label><br>
               <input type="checkbox" name="choice-7" id="c7-v21" value="c7-v21" v-model="choice7">
-              <label for="c7-v20">О восстановлении пропущенного срока</label><br>
+              <label for="c7-v21">О восстановлении пропущенного срока</label><br>
               <input type="checkbox" name="choice-7" id="c7-v22" value="c7-v22" v-model="choice7">
-              <label for="c7-v21">Об обязании нотариуса совершить нотариальное действие</label><br>
+              <label for="c7-v22">Об обязании нотариуса совершить нотариальное действие</label><br>
               <input type="checkbox" name="choice-7" id="c7-v23" value="c7-v23" v-model="choice7">
-              <label for="c7-v22">Об обязании исполнить обязательство в натуре по договору</label><br>
+              <label for="c7-v23">Об обязании исполнить обязательство в натуре по договору</label><br>
               <input type="checkbox" name="choice-7" id="c7-v24" value="c7-v24" v-model="choice7">
-              <label for="c7-v23">Об обязании устранить недостатки</label><br>
+              <label for="c7-v24">Об обязании устранить недостатки</label><br>
               <input type="checkbox" name="choice-7" id="c7-v25" value="c7-v25" v-model="choice7">
-              <label for="c7-v24">Об обязании передать индивидуально-определенную вещь в соответствии с условиями обязательства (кроме неосновательного обогащения)</label><br>
+              <label for="c7-v25">Об обязании передать индивидуально-определенную вещь в соответствии с условиями обязательства (кроме неосновательного обогащения)</label><br>
               </div>
 
               <h2>8. Дополнительные требования</h2>
@@ -449,13 +460,13 @@
                 Обновляем предпросмотр
               </b-alert>
               <b-alert v-model="error" variant="danger" dismissible>
-                Пиздец
+                Произошла ошибка
               </b-alert>
             </div>
 
             <!-- <p v-on:click='ask'>SHOW</p> -->
             <!-- <div v-html="api_resp"></div> -->
-            <div id='pdf-container'>
+            <div id='pdf-container' @change='say("OCHKO")'>
               <!-- <canvas id="the-canvas"></canvas> -->
             </div>
           </b-col>

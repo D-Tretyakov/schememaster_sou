@@ -185,8 +185,6 @@ def get_text(request):
     #     req['choice-7'].extend(req['choice-7-1'])
     # del req['choice-7-1']
 
-
-
     res = {}
     for choice in req:
         if len(choice.split('-')) != 2:

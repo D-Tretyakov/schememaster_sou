@@ -63,7 +63,10 @@ var app = new Vue({
     choice11: "c11-v1",
     needs_tax: true,
     needs_price_7: true,
+    about_possesions: true,
     needs_price_8: true,
+
+    download_available: false,
 
     updating: false,
     error: false,
@@ -145,12 +148,20 @@ var app = new Vue({
         document.getElementById('c7-h4').style.display = 'none'
       }
 
-      if (['c7-v1','c7-v2','c7-v3',
+      // if (['c7-v1','c7-v2','c7-v3',
+      //      'c7-v4','c7-v5','c7-v6',
+      //      'c7-v7','c7-v7','c7-v9',
+      //      'c7-v10','c7-v11','c7-v12',
+      //      'c7-v13','c7-v14','c7-v15', 'c7-v24',
+      //     ].includes(this.choice7)) {
+      if (this.choice7.some(el => 
+          ['c7-v1','c7-v2','c7-v3',
            'c7-v4','c7-v5','c7-v6',
            'c7-v7','c7-v7','c7-v9',
            'c7-v10','c7-v11','c7-v12',
-           'c7-v13','c7-v14','c7-v15', 'c7-v24',
-          ].includes(this.choice7)) {
+           'c7-v13','c7-v14','c7-v15', 
+           'c7-v17', 'c7-v18', 'c7-v24',
+          ].includes(el))) {
         // this.choice5 = 'c5-v1'
         // document.getElementById('c5-v1').click()
         // document.getElementById('c5-v1').disabled = true
@@ -237,11 +248,15 @@ var app = new Vue({
     },
 
     updatePDF: function() {
+      if (!this.download_available) {
+        this.download_available = true
+      }
+
       this.updating = true
       f = document.forms[1]
       var bodyFormData = new FormData(f)
       bodyFormData.delete('c7-block1-radio')
-      bodyFormData.delete('choice-6-op')
+      // bodyFormData.delete('choice-6-op')
       axios({
         method: 'post',
         url: document.URL + 'front/',
@@ -252,14 +267,19 @@ var app = new Vue({
           //handle success
           console.log(response)
           getPDF()
-          // this.updating = false
+          app.updating = false
       })
       .catch(function (response) {
           //handle error
-          alert('Произошел пиздец')
+          app.error = true
+          alert('Что-то пошло не так ¯\\_(ツ)_/¯')
           console.log(response)
       });
     },
+
+    download: function() {
+      window.location.href="download-doc/"
+    }
 
   },
 })
