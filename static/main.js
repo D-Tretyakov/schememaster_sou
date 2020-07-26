@@ -322,5 +322,6 @@ var app = new Vue({
   mounted: function(){
     document.getElementById('c2-v1').click()
     document.getElementById('c4-v1').click()
+    // this.getPDF()
   },
 })
