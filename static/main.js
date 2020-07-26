@@ -45,6 +45,7 @@ var app = new Vue({
     ],
     choice5: "c5-v1",
     choice6: "c6-v1",
+    choice6op: "",
     choice7: ["c7-v1"],
     show_opt1: false,
     show_opt23: false,
@@ -240,6 +241,7 @@ var app = new Vue({
       f = document.forms[1]
       var bodyFormData = new FormData(f)
       bodyFormData.delete('c7-block1-radio')
+      bodyFormData.delete('choice-6-op')
       axios({
         method: 'post',
         url: document.URL + 'front/',
