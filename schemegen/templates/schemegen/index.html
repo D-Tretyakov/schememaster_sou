@@ -132,27 +132,7 @@
                 </div>
               </div>
 
-              <h2>5. Цена иска</h2>
-              <p id='c5-h1' style="background-color: #f1bb68;">
-                Подробнее об определении цены иска 
-                <a href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=CJI&n=123299#07416649636887795">см. Решение</a>
-              </p>
-
-              <p v-if='choice5 == "c5-v1"' id='c5-h2' style="background-color: #f1bb68;">
-                Особенности определения цены иска –
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/7323db566b767e88542acc5ac8c780f5b6ef8e1c/">ст. 91 ГПК РФ</a>
-              </p>
-
-              <p id='c5-h3' style="background-color: #f1bb68;">
-                В данном случае цена иска <span v-if="needs_price_7 || needs_price_8">должна быть указана</span><span v-else>не должна быть указана</span>
-              </p>
-
-              <input type="radio" name="choice-5" id="c5-v1" value="c5-v1" v-model='choice5' checked>
-              <label for="c5-v1">Указывается</label><br>
-              <input type="radio" name="choice-5" id="c5-v2" value="c5-v2" v-model='choice5'>
-              <label for="c5-v2">Не указывается</label><br>
-
-              <h2>6. Государственная пошлина</h2>
+              <h2>5. Государственная пошлина</h2>
               <div v-if='needs_tax'>
                 <p id='c6-h1' style="background-color: #f1bb68;">
                   Рассчитать размер государственной пошлины Вы можете с помощью
@@ -235,7 +215,7 @@
                   <label for='c6-v29'>Право на освобождение от уплаты государственной пошлины согласно пп. 19 п. 1 ст. 333.36 НК РФ</label>
               </div>
 
-              <h2>7. Основные требования</h2>
+              <h2>6. Основные требования</h2>
               <p id='c7-h1' style="display: none; background-color: #f1bb68;">
                 См. подробнее 
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_9027/a6a62f9047375e7dd8d7d21f62184dc597cd2444/">гл. 60 ГК РФ</a>
@@ -300,24 +280,26 @@
               <input type="checkbox" name="choice-7" id="c7-v16" value="c7-v16" v-model="choice7">
               <label for="c7-v16">О признании сделки недействительной</label><br>
               <input type="checkbox" name="choice-7" id="c7-v17" value="c7-v17" v-model="choice7">
-              <label for="c7-v17">О признании права</label><br>
+              <label for="c7-v17">О признании права собственности на недвижимое имущество</label><br> 
               <input type="checkbox" name="choice-7" id="c7-v18" value="c7-v18" v-model="choice7">
-              <label for="c7-v18">О восстановлении в праве (кроме неосновательной передачи права)</label><br>
+              <label for="c7-v17">О признании права собственности на движимую вещь</label><br> 
               <input type="checkbox" name="choice-7" id="c7-v19" value="c7-v19" v-model="choice7">
-              <label for="c7-v19">О восстановлении на работе</label><br>
+              <label for="c7-v18">О восстановлении в праве (кроме неосновательной передачи права)</label><br>
               <input type="checkbox" name="choice-7" id="c7-v20" value="c7-v20" v-model="choice7">
-              <label for="c7-v20">О восстановлении пропущенного срока</label><br>
+              <label for="c7-v19">О восстановлении на работе</label><br>
               <input type="checkbox" name="choice-7" id="c7-v21" value="c7-v21" v-model="choice7">
-              <label for="c7-v21">Об обязании нотариуса совершить нотариальное действие</label><br>
+              <label for="c7-v20">О восстановлении пропущенного срока</label><br>
               <input type="checkbox" name="choice-7" id="c7-v22" value="c7-v22" v-model="choice7">
-              <label for="c7-v22">Об обязании исполнить обязательство в натуре по договору</label><br>
+              <label for="c7-v21">Об обязании нотариуса совершить нотариальное действие</label><br>
               <input type="checkbox" name="choice-7" id="c7-v23" value="c7-v23" v-model="choice7">
-              <label for="c7-v23">Об обязании устранить недостатки</label><br>
+              <label for="c7-v22">Об обязании исполнить обязательство в натуре по договору</label><br>
               <input type="checkbox" name="choice-7" id="c7-v24" value="c7-v24" v-model="choice7">
+              <label for="c7-v23">Об обязании устранить недостатки</label><br>
+              <input type="checkbox" name="choice-7" id="c7-v25" value="c7-v25" v-model="choice7">
               <label for="c7-v24">Об обязании передать индивидуально-определенную вещь в соответствии с условиями обязательства (кроме неосновательного обогащения)</label><br>
               </div>
 
-              <h2>8. Дополнительные требования</h2>
+              <h2>7. Дополнительные требования</h2>
               <p id='c8-h1' style="background-color: #f1bb68;">
                 См. подробнее 
                 <a href="http://www.consultant.ru/document/cons_doc_LAW_5142/93383099dc4f06165d8d4aac4eeb159db4f6da3d/">395 ГК РФ</a>
@@ -335,6 +317,26 @@
               <input type="checkbox" name="choice-8" id="c8-v5" value="c8-v5" v-model="choice8">
               <label for="c8-v5">О взыскании иных судебных расходов</label><br>
               </div>
+              
+              <h2>8. Цена иска</h2>
+              <p id='c5-h1' style="background-color: #f1bb68;">
+                Подробнее об определении цены иска 
+                <a href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=CJI&n=123299#07416649636887795">см. Решение</a>
+              </p>
+
+              <p v-if='choice5 == "c5-v1"' id='c5-h2' style="background-color: #f1bb68;">
+                Особенности определения цены иска –
+                <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/7323db566b767e88542acc5ac8c780f5b6ef8e1c/">ст. 91 ГПК РФ</a>
+              </p>
+
+              <p id='c5-h3' style="background-color: #f1bb68;">
+                В данном случае цена иска <span v-if="needs_price_7 || needs_price_8">должна быть указана</span><span v-else>не должна быть указана</span>
+              </p>
+
+              <input type="radio" name="choice-5" id="c5-v1" value="c5-v1" v-model='choice5' checked>
+              <label for="c5-v1">Указывается</label><br>
+              <input type="radio" name="choice-5" id="c5-v2" value="c5-v2" v-model='choice5'>
+              <label for="c5-v2">Не указывается</label><br>
 
               <h2>9. Соблюден ли досудебный порядок урегулирования спора</h2>
               <p v-if='choice9 == "c9-v2"' id='c9-h1' style="background-color: #f1bb68;">
