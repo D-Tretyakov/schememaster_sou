@@ -25,7 +25,10 @@ SECRET_KEY = '_fqgdr9kzv%yt)*!lx)c-27ifa5g$i7(*l1h%m=_zolhey3m3x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'cpintern.site',
+    '127.0.0.1',
+]
 
 
 # Application definition
