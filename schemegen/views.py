@@ -60,12 +60,13 @@ def convertion(ans, session_key):
     if ans[2][0] != '':
         k = 0
         for i in ans[2][1:]:
-            res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+            res = re.split(r'[1]\d*.|\n[2,3]\d*.|\r\n[2,3]\d*.',i)
             res.pop(0)
-            part1 = re.split('\n',res[0])
+            part1 = re.split('\n|\r\n',res[0])
             p.add_run('Представитель Истца:').bold = True
             ans[2][k]=res[1]
             for j in part1:
+                p.add_run(j)
                 p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
                 p = document.add_paragraph() 
             k+=1
