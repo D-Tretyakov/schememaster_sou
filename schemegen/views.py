@@ -46,10 +46,9 @@ def convertion(ans, session_key):
     p = document.add_paragraph()
     p.add_run("Адрес:_____________________").bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT    
-    for i in ans[0]:
-        p = document.add_paragraph()
-        p.add_run(i).bold = True
-        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p = document.add_paragraph()
+    p.add_run('{{court}}').bold = True
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     for j in ans[1]:
         res = re.split('\n',j)
         p = document.add_paragraph()
@@ -145,11 +144,12 @@ def convertion(ans, session_key):
     if ans[2][0]!= '':
         document.add_paragraph('{{complainant}}', style = 'List Number')
     for i in ans[7]:
-        res = re.split('\n',i[2])
-        document.add_paragraph(res[0], style = 'List Number')
-        if len(res) > 1:
-            for j in res[1:]:
-                document.add_paragraph(j)
+        if i[2] != '':
+            res = re.split('\n',i[2])
+            document.add_paragraph(res[0], style = 'List Number')
+            if len(res) > 1:
+                for j in res[1:]:
+                    document.add_paragraph(j)
     l = []
     for i in ans[8]:
         l.append(i[1])
@@ -163,7 +163,7 @@ def convertion(ans, session_key):
     document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t_____________ (________________)')
     document.save(fname)
     document = DocxTemplate(fname)
-    context = { 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
+    context = {'court':ans[0][0], 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
     document.save(fname)
 
