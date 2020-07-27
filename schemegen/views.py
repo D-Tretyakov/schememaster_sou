@@ -254,7 +254,7 @@ def convertion(ans, session_key):
 def get_text(request):
    
     req = dict(request.POST)
-    print(req)
+    # print(req)
 
     res = {}
     for choice in req:
@@ -296,7 +296,7 @@ def download(request):
 
     path = f'./claims/template_{session_key}.pdf'
     file_path = os.path.join(settings.MEDIA_ROOT, path)
-    print(file_path)
+    # print(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/pdf")

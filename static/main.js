@@ -59,10 +59,12 @@ var app = new Vue({
     choice11: "c11-v1",
     needs_tax: true,
     needs_price_7: true,
-    about_possesions: true,
+    // about_possesions: true,
     needs_price_8: true,
 
     download_available: false,
+
+    auto_refresh: true,
 
     updating: false,
     error: false,
@@ -78,6 +80,10 @@ var app = new Vue({
       document.getElementById(node_id).click()
     },
     onChange1() {
+      if (this.auto_refresh) {
+        this.updatePDF()
+      }
+
       this.needs_tax = true
       for (let i = 0; i < this.choice1.length; i++) {
         if (this.choice1[i].val === 'c1-v3') {
@@ -87,6 +93,10 @@ var app = new Vue({
       }
     },
     onChange2() {
+      if (this.auto_refresh) {
+        this.updatePDF()
+      }
+
       var show = false
       for (let i = 0; i < this.choice2.length; i++) {
         if (this.choice2[i].val === 'c2-v3') {
@@ -99,30 +109,40 @@ var app = new Vue({
         document.getElementById('c2-h1').style.display = 'none'
       }
     },
+    onChange3() {
+      if (this.auto_refresh) {
+        this.updatePDF()
+      }
+    },
+    onChange4() {
+      if (this.auto_refresh) {
+        this.updatePDF()
+      }
+    },
     onChange7() {
-      if (this.choice7.includes('c7-v2')) {
-        document.getElementById('c7-h1').style.display = ''
-      } else {
-        document.getElementById('c7-h1').style.display = 'none'
-      }
+      // if (this.choice7.includes('c7-v2')) {
+      //   document.getElementById('c7-h1').style.display = ''
+      // } else {
+      //   document.getElementById('c7-h1').style.display = 'none'
+      // }
 
-      if (this.choice7.includes('c7-v15')) {
-        document.getElementById('c7-h2').style.display = ''
-      } else {
-        document.getElementById('c7-h2').style.display = 'none'
-      }
+      // if (this.choice7.includes('c7-v15')) {
+      //   document.getElementById('c7-h2').style.display = ''
+      // } else {
+      //   document.getElementById('c7-h2').style.display = 'none'
+      // }
 
-      if (this.choice7.includes('c7-v16')) {
-        document.getElementById('c7-h3').style.display = ''
-      } else {
-        document.getElementById('c7-h3').style.display = 'none'
-      }
+      // if (this.choice7.includes('c7-v16')) {
+      //   document.getElementById('c7-h3').style.display = ''
+      // } else {
+      //   document.getElementById('c7-h3').style.display = 'none'
+      // }
 
-      if (this.choice7.includes('c7-v20')) {
-        document.getElementById('c7-h4').style.display = ''
-      } else {
-        document.getElementById('c7-h4').style.display = 'none'
-      }
+      // if (this.choice7.includes('c7-v20')) {
+      //   document.getElementById('c7-h4').style.display = ''
+      // } else {
+      //   document.getElementById('c7-h4').style.display = 'none'
+      // }
 
       if (this.choice7.some(el => 
           ['c7-v1','c7-v2','c7-v3',
@@ -223,7 +243,6 @@ var app = new Vue({
     download: function() {
       window.location.href="download-doc/"
     },
-
   },
   mounted: function mounted () {
     document.getElementById('c2-v1').click()
