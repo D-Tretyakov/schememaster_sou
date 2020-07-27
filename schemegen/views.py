@@ -172,6 +172,8 @@ def convertion(ans, session_key):
     if ans[6] != ['']:
         p = document.add_paragraph()
         p.add_run('Государственная пошлина: ').bold = True
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        p = document.add_paragraph()
         p.add_run('{{poshlina}}')
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph()
