@@ -215,6 +215,7 @@ def convertion(ans, session_key):
     s = s[:-2]
     p.add_run('о ' + s).italic = True
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    document.add_paragraph()
     p = document.add_paragraph("ПРОШУ:")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     k = 0
