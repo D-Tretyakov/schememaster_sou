@@ -118,14 +118,11 @@ def convertion(ans, session_key):
     fname = f'./claims/demo_{session_key}.docx'
     document.save(fname)  
     p = document.add_paragraph()
-    p.add_run('В___________________').bold = True
+    p.add_run('{{court}}').bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph()
     p.add_run("Адрес:_____________________").bold = True
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT    
-    p = document.add_paragraph()
-    p.add_run('{{court}}').bold = True
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT 
     for j in ans[1]:
         res = re.split('\n',j)
         p = document.add_paragraph()
