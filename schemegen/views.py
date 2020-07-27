@@ -113,20 +113,6 @@ def index(request):
     context.update(d)
     return render(request, 'schemegen/index.html', context)
 
-# def get_tree(request, tree_id):
-#     tree_ids = {tree.id: tree.name for tree in Tree.objects.all()}
-#     tree = Tree.objects.get(id=tree_id)
-#     context = {'tree': tree, 'tree_ids': tree_ids}
-#     return render(request, 'schemegen/tree.html', context)
-
-# def convert(request, tree_id):
-#     print(request.POST)
-#     result = [Variant.objects.get(id=int(request.POST[f'variant_choice{c.id}'])).text_repr
-#             for c in Tree.objects.get(id=tree_id).choice_set.all()]
-#     text = Tree.objects.get(id=tree_id).schema_set.all()[0].text_repr.format(*result)
-
-#     return HttpResponse(text.replace('\n', '<br>'))
-
 def convertion(ans, session_key):
     document = Document()
     fname = f'./claims/demo_{session_key}.docx'
@@ -265,18 +251,9 @@ def convertion(ans, session_key):
     document.save(fname)
 
 def get_text(request):
-    template = Template.objects.first()
-    header = "<div style='text-align: right;'>" + template.header + "</div>"
-    body = "<div style='text-align: center;'>" + template.body + "</div>"
-    footer = template.footer
-
-    schema = header + body + footer
-    
+   
     req = dict(request.POST)
-    print(req)
-    # if req['choice-7'][0] in ['c7-v6', 'c7-v7', 'c7-v8']:
-    #     req['choice-7'].extend(req['choice-7-1'])
-    # del req['choice-7-1']
+    # print(req)
 
     res = {}
     for choice in req:
@@ -286,11 +263,6 @@ def get_text(request):
         i = int(choice.split('-')[1])
         answer = []
 
-        # if choice == 'choice-7' and len(req[choice]) == 2:
-        #     ans0 = TextAlias.objects.get(html_id=req[choice][0]).text
-        #     ans1 = TextAlias.objects.get(html_id=req[choice][1]).text
-        #     answer.append(ans0+'\n'+ans1)
-            # res[i] = answer
         if choice == 'choice-7' and 'c7-v2' in req[choice]:
             op1 = req.get('choice-7-op1')
             op2 = req.get('choice-7-op2')
@@ -313,11 +285,8 @@ def get_text(request):
         
         res[i] = answer
     
-    print(res)
-    # ans = [res[key] for key in sorted(res.keys())]    
-    # text = schema.format(*ans)
+    # print(res)
     convertion(res, request.session.session_key)
-    # return HttpResponse(text.replace('\n', '<br>'))
     return HttpResponse("Success")
 
 def download(request):
@@ -347,58 +316,3 @@ def download_doc(request):
             response['Content-Disposition'] = 'inline; filename=' + f'Generated_claim_{dt.strftime("%Y%m%d%H%M%S")}.docx'
             return response
     raise Http404
-
-# @api_view(['POST'])
-# def pretty_print(request):   
-#     req = dict(request.POST)
-#     del req['csrfmiddlewaretoken']
-    
-#     res = {}
-#     for choice in req:
-#         i = int(choice.split('-')[1])
-#         answer = []
-#         for j in req[choice]:
-#             answer.append(TextAlias.objects.get(html_id=j).text)
-#             res[i] = answer 
-#     ans = []
-#     for key in sorted(res.keys()):
-#       ans.append(res[key])
-
-#     return Response({
-#         'req': req,
-#         'res':res,
-#         'ans': ans,
-#     })
-
-# def get_text(request):
-#     template = Template.objects.first()
-#     header = "<div style='text-align: right;'>" + template.header + "</div>"
-#     body = "<div style='text-align: center;'>" + template.body + "</div>"
-#     footer = template.footer
-
-#     schema = header + body + footer
-    
-#     req = dict(request.POST)
-#     res = {}
-#     for choice in req:
-#         i = int(choice.split('-')[1])
-#         res[i] = TextAlias.objects.get(html_id=req[choice][0]).text
-   
-#     ans = [res[key] for key in sorted(res.keys())]
-#     ans += ['1. Копия доверенности или иного документа, подтверждающего полномочия представителя' if res[2] else '']
-#     ans += ['2. Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.\n\n« » ________ _____г. _____________ (________________)'
-#             if res[6] != 'не взимается' else '']
-#     text = schema.format(*ans)
-
-#     return HttpResponse(text.replace('\n', '<br>'))
-
-# @api_view()
-# def pass_func(request):
-#     template = Template.objects.first()
-#     header = "<div style='text-align: right;'>" + template.header + "</div>"
-#     body = "<div style='text-align: center;'>" + template.body + "</div>"
-#     footer = template.footer
-
-#     schema = header + body + footer
-
-#     return Response({'text': schema})
