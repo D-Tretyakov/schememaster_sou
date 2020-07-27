@@ -188,14 +188,15 @@ def convertion(ans, session_key):
         if i == ans[7][-1]:
             ans[7] = l
             break
-    l=[]
-    for i in ans[8]:
-        res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
-        res.pop(0)
-        l.append(res)
-        if i == ans[8][-1]:
-            ans[8] = l
-            break
+    if ans[8]!=['']:
+        l=[]
+        for i in ans[8]:
+            res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+            res.pop(0)
+            l.append(res)
+            if i == ans[8][-1]:
+                ans[8] = l
+                break
     p = document.add_paragraph()
     s = ''
     for i in ans[7]:
@@ -203,20 +204,20 @@ def convertion(ans, session_key):
     s = s[:-2]
     p.add_run('о ' + s).italic = True
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    document.add_paragraph()
     p = document.add_paragraph("ПРОШУ:")
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     k = 0
     for i in ans[7]:
         k+=1
         document.add_paragraph('%i.' %k + i[1])
-    l = []
-    for i in ans[8]:
-        l.append(i[0])
-    res = set(l)
-    for i in res:
-        k+=1
-        document.add_paragraph('%i.' %k + i)
+    if ans[8]!= ['']:
+        l = []
+        for i in ans[8]:
+            l.append(i[0])
+        res = set(l)
+        for i in res:
+            k+=1
+            document.add_paragraph('%i.' %k + i)
     if ans[11]!= ['']:
         k+=1
         document.add_paragraph('%i.' %k + '{{potrebiteli}}')
@@ -235,12 +236,13 @@ def convertion(ans, session_key):
             if len(res) > 1:
                 for j in res[1:]:
                     document.add_paragraph(j)
-    l = []
-    for i in ans[8]:
-        l.append(i[1])
-    res = set(l)
-    for i in res:
-        document.add_paragraph(i, style = 'List Number')
+    if ans[8] != ['']:
+        l = []
+        for i in ans[8]:
+            l.append(i[1])
+        res = set(l)
+        for i in res:
+            document.add_paragraph(i, style = 'List Number')
     if ans[9] != ['']:
         document.add_paragraph('{{regulation}}', style = 'List Number')
     if ans[10] != ['']:
