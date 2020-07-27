@@ -12,6 +12,8 @@
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
     <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 
+    <link rel="shortcut icon" href="/root/schememaster_sou/favicon.ico" type="image/x-icon" />
+
     <title>Конструктор Исков (СОЮ)</title>
   </head>
   <body >
@@ -339,11 +341,14 @@
 
               <div @change='onChange8()'>
                 <b-form-group>
-                  <b-form-checkbox name="choice-8" id="c8-v1" value="c8-v1" v-model="choice8">{{ c8_v1 }}</b-form-checkbox>
-                  <b-form-checkbox name="choice-8" id="c8-v2" value="c8-v2" v-model="choice8">{{ c8_v2 }}</b-form-checkbox>
-                  <b-form-checkbox name="choice-8" id="c8-v3" value="c8-v3" v-model="choice8">{{ c8_v3 }}</b-form-checkbox>
-                  <b-form-checkbox name="choice-8" id="c8-v4" value="c8-v4" v-model="choice8">{{ c8_v4 }}</b-form-checkbox>
-                  <b-form-checkbox name="choice-8" id="c8-v5" value="c8-v5" v-model="choice8">{{ c8_v5 }}</b-form-checkbox>
+                  <div v-if='!choice8.includes("c8-v6")'>
+                    <b-form-checkbox name="choice-8" id="c8-v1" value="c8-v1" v-model="choice8">{{ c8_v1 }}</b-form-checkbox>
+                    <b-form-checkbox name="choice-8" id="c8-v2" value="c8-v2" v-model="choice8">{{ c8_v2 }}</b-form-checkbox>
+                    <b-form-checkbox name="choice-8" id="c8-v3" value="c8-v3" v-model="choice8">{{ c8_v3 }}</b-form-checkbox>
+                    <b-form-checkbox name="choice-8" id="c8-v4" value="c8-v4" v-model="choice8">{{ c8_v4 }}</b-form-checkbox>
+                    <b-form-checkbox name="choice-8" id="c8-v5" value="c8-v5" v-model="choice8">{{ c8_v5 }}</b-form-checkbox>
+                  </div>
+                  <b-form-checkbox name="choice-8" id="c8-v6" value="c8-v6" v-model="choice8">Не предъявляются</b-form-checkbox>
                 </b-form-group>
               </div>
               
