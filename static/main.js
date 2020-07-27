@@ -285,6 +285,7 @@ var app = new Vue({
               .addEventListener('DOMSubtreeModified', this.closeUpdateAlarm);
 
       this.updating = true
+      this.error = false
       f = document.forms[1]
       var bodyFormData = new FormData(f)
       bodyFormData.delete('c7-block1-radio')
