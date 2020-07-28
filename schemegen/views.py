@@ -10,6 +10,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docxtpl import DocxTemplate
 from datetime import datetime
+import zipfile as zp
 import json
 import re
 import os
@@ -116,7 +117,7 @@ def index(request):
 def convertion(ans, session_key):
     document = Document()
     fname = f'./claims/demo_{session_key}.docx'
-    document.save(fname)  
+    document.save(fname)
     p = document.add_paragraph()
     p.add_run('{{court}}').bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -254,10 +255,8 @@ def convertion(ans, session_key):
     document.save(fname)
 
 def get_text(request):
-   
     req = dict(request.POST)
-    print('AAAAAAAA')
-    print(req)
+    # print(req)
 
     res = {}
     for choice in req:
