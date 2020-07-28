@@ -241,6 +241,7 @@ var app = new Vue({
         app.updating = false
         app.error = true
         // alert('Что-то пошло не так ¯\\_(ツ)_/¯')
+        document.location.reload(true);
         console.log(response)
       });
     },

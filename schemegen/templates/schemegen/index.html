@@ -50,7 +50,7 @@
               <p class="p-1 mt-3 border border-primary bg-light text-black rounded" id='c0-h1'>
                 Определить суд Вам помогут
                 <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_39570/94d4da0fefbc3b2f7e44fd502a0a37a8f5ebaebb/">ст. 23 – 26 ГПК РФ</a> ,
-                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_176147/15bce2ff9d07937b0abc450a5c77967ecffdaaad/">ст. 17.1-20 КАС РФ</a> ,
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_176147/15bce2ff9d07937b0abc450a5c77967ecffdaaad/">ст. 17.1-20 КАС РФ</a>
 
               </p>
               <b-form-group>
@@ -151,7 +151,7 @@
                   <a target="_blank" href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v3" triggers="hover" placement="top">
-                  "Размер государственной пошлины см. в
+                  Размер государственной пошлины см. в
                   <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.3 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v4" triggers="hover" placement="top">
@@ -523,9 +523,9 @@
     </div>
 
     {% load static %}
-    <script src="{% static 'debounce.js' %}"></script>
-    <script src="{% static 'pdf.js' %}"></script>
-    <script src="{% static 'main.js' %}"></script>  
-    <script src="{% static 'previewUpdate.js'%}"></script>
+    <script src="{% static 'debounce.js' %}?{% now 'U' %}"></script>
+    <script src="{% static 'pdf.js' %}?{% now 'U' %}"></script>
+    <script src="{% static 'main.js' %}?{% now 'U' %}"></script>  
+    <script src="{% static 'previewUpdate.js'%}?{% now 'U' %}"></script>
   </body>
 </html>
