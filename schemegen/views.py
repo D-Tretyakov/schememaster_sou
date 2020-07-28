@@ -258,7 +258,7 @@ def convertion(ans, session_key):
 
 def get_text(request):
     req = dict(request.POST)
-    print(req)
+    # print(req)
 
     res = {}
     for choice in req:

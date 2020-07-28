@@ -217,7 +217,7 @@ var app = new Vue({
       })
       .then(function (response) {
         //handle success
-        console.log(response)
+        // console.log(response)
         getPDF()
       })
       .catch(function (response) {
@@ -226,7 +226,7 @@ var app = new Vue({
         // app.error = true
         // alert('Что-то пошло не так ¯\\_(ツ)_/¯')
         // document.location.reload(true);
-        console.log(response)
+        // console.log(response)
       });
     },
 
