@@ -115,10 +115,9 @@ def index(request):
     return render(request, 'schemegen/index.html', context)
 
 def convertion(ans, session_key):
-    fname = f'./claims/demo_{session_key}.docx'
-
     document = Document()
-    document.save(fname)
+    fname = f'./claims/demo_{session_key}.docx'
+    document.save(fname)  
     p = document.add_paragraph()
     p.add_run('{{court}}').bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -168,17 +167,12 @@ def convertion(ans, session_key):
         p = document.add_paragraph()
         p.add_run('{{price_isk}}').bold = True
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[6] != ['_']:
+    if ans[6] != ['']:
         p = document.add_paragraph()
         p.add_run('Государственная пошлина: ').bold = True
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
         p = document.add_paragraph()
         p.add_run('{{poshlina}}')
-        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    else:
-        p = document.add_paragraph()
-        p.add_run('Государственная пошлина: ').bold = True
-        p.add_run('______')
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph()
     p.add_run("Исковое заявление").bold = True
@@ -192,14 +186,15 @@ def convertion(ans, session_key):
         if i == ans[7][-1]:
             ans[7] = l
             break
-    l=[]
-    for i in ans[8]:
-        res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
-        res.pop(0)
-        l.append(res)
-        if i == ans[8][-1]:
-            ans[8] = l
-            break
+    if ans[8]!=['']:
+        l=[]
+        for i in ans[8]:
+            res = re.split(r'[1]\d*.|\n[2,3]\d*.',i)
+            res.pop(0)
+            l.append(res)
+            if i == ans[8][-1]:
+                ans[8] = l
+                break
     p = document.add_paragraph()
     s = ''
     for i in ans[7]:
@@ -211,23 +206,22 @@ def convertion(ans, session_key):
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     k = 0
     for i in ans[7]:
-        res = re.split(r'\r\n|\n', i[1])
-        for j in res:
-            k+=1
-            document.add_paragraph('%i.' %k + j)
-    l = []
-    for i in ans[8]:
-        l.append(i[0])
-    res = set(l)
-    for i in res:
         k+=1
-        document.add_paragraph('%i.' %k + i)
+        document.add_paragraph('%i.' %k + i[1])
+    if ans[8]!= ['']:
+        l = []
+        for i in ans[8]:
+            l.append(i[0])
+        res = set(l)
+        for i in res:
+            k+=1
+            document.add_paragraph('%i.' %k + i)
     if ans[11]!= ['']:
         k+=1
         document.add_paragraph('%i.' %k + '{{potrebiteli}}')
     p = document.add_paragraph()
     p.add_run('Приложение:').bold = True
-    if ans[6] == ['_']:
+    if ans[6] != ['']:
         document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.', style = 'List Number')
     document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
@@ -236,23 +230,24 @@ def convertion(ans, session_key):
     for i in ans[7]:
         if i[2] != '':
             res = re.split('\n|\r\n',i[2])
-            for j in res:
-                document.add_paragraph(j, style = 'List Number')
-    l = []
-    for i in ans[8]:
-        l.append(i[1])
-    res = set(l)
-    for i in res:
-        document.add_paragraph(i, style = 'List Number')
+            document.add_paragraph(res[0], style = 'List Number')
+            if len(res) > 1:
+                for j in res[1:]:
+                    document.add_paragraph(j)
+    if ans[8] != ['']:
+        l = []
+        for i in ans[8]:
+            l.append(i[1])
+        res = set(l)
+        for i in res:
+            document.add_paragraph(i, style = 'List Number')
     if ans[9] != ['']:
         document.add_paragraph('{{regulation}}', style = 'List Number')
     if ans[10] != ['']:
         document.add_paragraph('{{peace}}', style = 'List Number')
     document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t_____________ (________________)')
     document.save(fname)
-
     document = DocxTemplate(fname)
-    
     context = {'court':ans[0][0], 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
     document.save(fname)
