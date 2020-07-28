@@ -115,7 +115,6 @@ def index(request):
     return render(request, 'schemegen/index.html', context)
 
 def convertion(ans, session_key):
-    print(ans)
     document = Document()
     fname = f'./claims/demo_{session_key}.docx'
     document.save(fname)  
