@@ -169,8 +169,8 @@ var app = new Vue({
         document.getElementById('c5-v2').click()
       }
 
-      console.log('NEEDS PRICE?')
-      console.log(this.needs_price_7 || this.needs_price_8)
+      // console.log('NEEDS PRICE?')
+      // console.log(this.needs_price_7 || this.needs_price_8)
     },
     onChange8() {
 
@@ -191,23 +191,8 @@ var app = new Vue({
       // console.log('NEEDS PRICE?')
       // console.log(this.needs_price_7 || this.needs_price_8)
     },
-    send: function () {
-      console.log('choice 0' + ' ' + this.choice0);
-      console.log('choice 1' + ' ' + this.choice1);
-      console.log('choice 2' + ' ' + this.choice2);
-      console.log('choice 3' + ' ' + this.choice3);
-      console.log('choice 4' + ' ' + this.choice4);
-      console.log('choice 5' + ' ' + this.choice5);
-      console.log('choice 6' + ' ' + this.choice6);
-      console.log('choice 7' + ' ' + this.choice7);
-      console.log('choice 8' + ' ' + this.choice8);
-      console.log('choice 9' + ' ' + this.choice9);
-      console.log('choice 10' + ' ' + this.choice10);
-      console.log('choice 11' + ' ' + this.choice11);
-    },
 
     closeUpdateAlarm: function() {
-      console.log('CLOSE');
       this.updating = false
     },
 
@@ -216,11 +201,10 @@ var app = new Vue({
         this.download_available = true
       }
 
-      document.getElementById('pdf-container')
-              .addEventListener('DOMSubtreeModified', this.closeUpdateAlarm);
 
       this.updating = true
       this.error = false
+
       f = document.forms[1]
       var bodyFormData = new FormData(f)
       bodyFormData.delete('c7-block1-radio')
@@ -233,16 +217,16 @@ var app = new Vue({
       })
       .then(function (response) {
         //handle success
-        console.log(response)
+        // console.log(response)
         getPDF()
       })
       .catch(function (response) {
         //handle error
         app.updating = false
-        app.error = true
+        // app.error = true
         // alert('Что-то пошло не так ¯\\_(ツ)_/¯')
-        document.location.reload(true);
-        console.log(response)
+        // document.location.reload(true);
+        // console.log(response)
       });
     },
 

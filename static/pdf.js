@@ -37,14 +37,12 @@ async function renderPage(num) {
   pageRendering = true;
   // Using promise to fetch the page
   pdfDoc.getPage(num).then(function(page) {
-    console.log('rendering ' + num);
     var pageWidth = page.view[2];
     var availableWidth = getWidth() / 2;
     var viewport = page.getViewport({scale: availableWidth / pageWidth - 0.025});
     canvas = document.getElementById('canvas-' + num);
     canvas.height = viewport.height;
     canvas.width = viewport.width;
-    console.log('got page ' + num);
 
     // Render PDF page into canvas context
     var renderContext = {
@@ -66,59 +64,20 @@ async function renderPage(num) {
   return 'Done';
 }
 
-// function queueRenderPage(num) {
-//   console.log('QUEUE');
-//   console.log(pagesToRender);
-//   if (pageRendering) {
-//     pageNumPending = num;
-//     // pagesToRender.push(num);
-//   } else {
-//     console.log('send to render page ' + num);
-//     // var n = pagesToRender.shift();
-//     renderPage(num);
-//   }
-// }
-
-// function onNextPage() {
-//   if (pageNum >= pdfDoc.numPages) {
-//     return;
-//   }
-//   pageNum++;
-//   queueRenderPage(pageNum);
-// }
-
 function getPDF() {
   pdfjsLib.getDocument(url).promise.then(async function(pdfDoc_) {
     pdfDoc = pdfDoc_;
-    // document.getElementById('page_count').textContent = pdfDoc.numPages;
     document.getElementById('pdf-container').innerHTML = '';
     for (var i = 1; i <= pdfDoc.numPages; i++) {
       var canvas = document.getElementById('canvas-' + i);
-      // if(typeof(canvas) != 'undefined' && canvas != null){
-      //   const context = canvas.getContext('2d');
-      //   context.clearRect(0, 0, canvas.width, canvas.height);
-      // } else{
       canvas = document.createElement("canvas");
       canvas.id = 'canvas-' + i;
-      // document.getElementById("pdf-container").appendChild(canvas);
       var element = document.getElementById("pdf-container");
       element.appendChild(canvas);
-      // }
-      // pagesToRender.push(num);
     }
 
     for (var i = 1; i <= pdfDoc.numPages; i++) {
-      a = await renderPage(i);
+      await renderPage(i);
     }
-    
-    // Initial/first page rendering
-    // renderPage(pageNum);
-    
-    // for (var i = 2; i <= pdfDoc.numPages; i++) {
-    //   console.log('SEND');
-    //   onNextPage();
-    // }
-
-    // pageNum = 1;
   });
 }

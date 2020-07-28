@@ -115,8 +115,9 @@ def index(request):
     return render(request, 'schemegen/index.html', context)
 
 def convertion(ans, session_key):
-    document = Document()
     fname = f'./claims/demo_{session_key}.docx'
+
+    document = Document()
     document.save(fname)
     p = document.add_paragraph()
     p.add_run('{{court}}').bold = True
@@ -249,7 +250,9 @@ def convertion(ans, session_key):
         document.add_paragraph('{{peace}}', style = 'List Number')
     document.add_paragraph('« » ________ _____г. \t\t\t\t\t\t_____________ (________________)')
     document.save(fname)
+
     document = DocxTemplate(fname)
+    
     context = {'court':ans[0][0], 'complainant':ans[2][0], 'price_isk':ans[5][0],'poshlina':ans[6][0], 'regulation':ans[9][0], 'peace':ans[10][0], 'potrebiteli':ans[11][0]}
     document.render(context)
     document.save(fname)
@@ -288,8 +291,8 @@ def get_text(request):
         
         res[i] = answer
     
-    # print(res)
     convertion(res, request.session.session_key)
+
     return HttpResponse("Success")
 
 def download(request):

@@ -6,3 +6,6 @@ function refresh() {
     app.updatePDF();
   }
 }
+
+// Close notification
+document.getElementById('pdf-container').addEventListener('DOMSubtreeModified', debounce(app.closeUpdateAlarm, 500));
