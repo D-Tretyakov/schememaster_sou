@@ -115,6 +115,7 @@ def index(request):
     return render(request, 'schemegen/index.html', context)
 
 def convertion(ans, session_key):
+    print(ans)
     document = Document()
     fname = f'./claims/demo_{session_key}.docx'
     document.save(fname)  
@@ -167,12 +168,17 @@ def convertion(ans, session_key):
         p = document.add_paragraph()
         p.add_run('{{price_isk}}').bold = True
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    if ans[6] != ['']:
+    if ans[6] != ['оплачивается']:
         p = document.add_paragraph()
         p.add_run('Государственная пошлина: ').bold = True
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
         p = document.add_paragraph()
         p.add_run('{{poshlina}}')
+        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    else:
+        p = document.add_paragraph()
+        p.add_run('Государственная пошлина: ').bold = True
+        p.add_run('_________')
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p = document.add_paragraph()
     p.add_run("Исковое заявление").bold = True
@@ -221,7 +227,7 @@ def convertion(ans, session_key):
         document.add_paragraph('%i.' %k + '{{potrebiteli}}')
     p = document.add_paragraph()
     p.add_run('Приложение:').bold = True
-    if ans[6] != ['']:
+    if ans[6] == ['оплачивается']:
         document.add_paragraph('Платежное поручение №___ от «__»______ ____ г., подтверждающее уплату государственной пошлины.', style = 'List Number')
     document.add_paragraph('Копия уведомления о вручении или иные документы, подтверждающие направление другим лицам, участвующим в деле, копий искового заявления и приложенных к нему документов, которые у других лиц, участвующих в деле, отсутствуют;', style = 'List Number')
     document.add_paragraph('Иные документы, на которых Истец обосновывает свои требования;', style = 'List Number')
@@ -230,10 +236,8 @@ def convertion(ans, session_key):
     for i in ans[7]:
         if i[2] != '':
             res = re.split('\n|\r\n',i[2])
-            document.add_paragraph(res[0], style = 'List Number')
-            if len(res) > 1:
-                for j in res[1:]:
-                    document.add_paragraph(j)
+            for j in res:
+                document.add_paragraph(j, style = 'List Number')
     if ans[8] != ['']:
         l = []
         for i in ans[8]:
