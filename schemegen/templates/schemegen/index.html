@@ -14,13 +14,13 @@
 
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
 
-    <title>Конструктор Исков (СОЮ)</title>
+    <title>Мастер Шаблонов (СОЮ)</title>
   </head>
   <body >
     <div id="app">
       <div>
         <b-navbar type="dark" variant='info' sticky>
-          <b-navbar-brand href="#">Конструктор Исков</b-navbar-brand>
+          <b-navbar-brand href="#">Мастер Шаблонов</b-navbar-brand>
           <b-nav-form>
             <b-button-group>
               <b-button v-if='download_available' @click='download()'>Скачать</b-button>
@@ -49,7 +49,7 @@
               <!-- 0 -->
               <p class="p-1 mt-3 border border-primary bg-light text-black rounded" id='c0-h1'>
                 Определить суд Вам помогут
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/">ст. 23 – 26 ГПК РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_39570/">ст. 23 – 26 ГПК РФ</a>
               </p>
               <b-form-group>
                 <b-form-radio name="choice-0" id="c0-v1" value="c0-v1" v-model="choice0">Мировой судья</b-form-radio>
@@ -64,7 +64,7 @@
               <!-- 1 -->
               <p v-if='choice1.length > 1' id='c1-h1' class="p-1 mt-3 border border-primary bg-light text-black rounded">
                 В случае, если за совершением юридически значимого действия одновременно обратились несколько плательщиков, государственная пошлина уплачивается плательщиками в равных долях
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/d6ee56e108108807503db3f4f9f375c9c296cd44/">(п. 2 ст. 333.18 НК РФ)</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/d6ee56e108108807503db3f4f9f375c9c296cd44/">(п. 2 ст. 333.18 НК РФ)</a>
               </p>
 
               <b-button-group size="sm">
@@ -83,7 +83,7 @@
               <!-- 2 -->
               <p id='c2-h1' style="display: none;" class="p-1 border border-primary bg-light text-black rounded">
                 Изучите
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/30cce8b59fb357ee113826f9c037b00da958c7a2/">Главу 5 ГПК РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_39570/30cce8b59fb357ee113826f9c037b00da958c7a2/">Главу 5 ГПК РФ</a>
                 о представителе в суде
               </p>
 
@@ -142,76 +142,76 @@
               <div v-if='needs_tax'>
                 <b-popover target="wrap-c6-op-v1" triggers="hover" placement="top">
                   Рассчитать размер государственной пошлины Вы можете с помощью
-                  <a href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
+                  <a target="_blank" href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v2" triggers="hover" placement="top">
                   Рассчитать размер государственной пошлины Вы можете с помощью
-                  <a href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
+                  <a target="_blank" href="http://calc.consultant.ru/gosposhlina-soj">Калькулятора СПС «КонсультантПлюс»</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v3" triggers="hover" placement="top">
                   "Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.3 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.3 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v4" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.3 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.3 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v5" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.5 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.5 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v6" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.6 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.6 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v7" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.6.1 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.6.1 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v8" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.7 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.7 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v9" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.14 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.14 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v10" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.15 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.15 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
                 <b-popover target="wrap-c6-op-v11" triggers="hover" placement="top">
                   Размер государственной пошлины см. в
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.16 п.1 ст.333.19 НК РФ</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/1cfcdcc5936cbfc3ea52f964201a1bb6002be313/">пп.16 п.1 ст.333.19 НК РФ</a>
                 </b-popover>
 
                 <p v-if='choice6.length > 1' id='c6-h11' class="p-1 border border-primary bg-light text-black rounded">
-                  Обратите внимание на особенности расчета государственной пошлины при подаче искового заявления несколькими истцами <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/d6ee56e108108807503db3f4f9f375c9c296cd44/">(п.2 ст.333.18 НК РФ)</a>, в том числе одновременно физическими и юридическими лицами. См. Письмо Департамента налоговой и таможенной политики Минфина России от 30 марта 2018 г. № 03-05-05-03/20247
+                  Обратите внимание на особенности расчета государственной пошлины при подаче искового заявления несколькими истцами <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/d6ee56e108108807503db3f4f9f375c9c296cd44/">(п.2 ст.333.18 НК РФ)</a>, в том числе одновременно физическими и юридическими лицами. См. Письмо Департамента налоговой и таможенной политики Минфина России от 30 марта 2018 г. № 03-05-05-03/20247
                 </p>
 
                 <p v-if='choice6.length > 1' id='c6-h12' class="p-1 border border-primary bg-light text-black rounded">
-                  При подаче исковых заявлений, а также административных исковых заявлений, содержащих требования как имущественного, так и неимущественного характера, одновременно уплачиваются государственная пошлина, установленная для исковых заявлений имущественного характера, и государственная пошлина, установленная для исковых заявлений неимущественного характера <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/84d383b088ff6ad7be9ba16d43c71828b1105aa5/">(пп.1 п.1 ст.333.20 НК РФ)</a>
+                  При подаче исковых заявлений, а также административных исковых заявлений, содержащих требования как имущественного, так и неимущественного характера, одновременно уплачиваются государственная пошлина, установленная для исковых заявлений имущественного характера, и государственная пошлина, установленная для исковых заявлений неимущественного характера <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/84d383b088ff6ad7be9ba16d43c71828b1105aa5/">(пп.1 п.1 ст.333.20 НК РФ)</a>
                 </p>
 
                 <b-popover target="wrap-c6-v13" triggers="hover" placement="top">
                   Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
                 </b-popover>
                 <b-popover target="wrap-c6-v14" triggers="hover" placement="top">
                   Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
                 </b-popover>
                 <b-popover target="wrap-c6-v15" triggers="hover" placement="top">
                   Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
                 </b-popover>
                 <b-popover target="wrap-c6-v16" triggers="hover" placement="top">
                   Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
                 </b-popover>
                 <b-popover target="wrap-c6-v28" triggers="hover" placement="top">
                   Лицо освобождается от уплаты государственной пошлины в случае, если цена иска не превышает 1 000 000 рублей (при исковом заявлении имущественного характера или одновременно имущественного и неимущественного характера). В случае, если цена иска превышает 1 000 000 рублей, тогда лицо уплачивает государственную пошлину в сумме, исчисленной в соответствии с пп. 1 п.1 ст. 333.19 Налогового кодекса РФ указанным в начале документа и уменьшенной на сумму государственной пошлины, подлежащей уплате при цене иска 1 000 000 рублей (п.3 ст. 333.36 Налогового кодекса РФ)
-                  <a href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
+                  <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_28165/61fdaaad02ecf7772dc9e0331d21c7ddc3323d4f/">Ссылка</a>
                 </b-popover>
 
                 
@@ -324,19 +324,19 @@
               <!-- 7 -->
               <b-popover target="wrap-c7-v2" triggers="hover" placement="top">
                 См. подробнее 
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_9027/a6a62f9047375e7dd8d7d21f62184dc597cd2444/">гл. 60 ГК РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_9027/a6a62f9047375e7dd8d7d21f62184dc597cd2444/">гл. 60 ГК РФ</a>
               </b-popover>
               <b-popover target="wrap-c7-v15" triggers="hover" placement="top">
                 См. подробнее 
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_5142/4734407fbf4d5eec5306840f8b75b994e5d57090/">ст. 15 ГК РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_5142/4734407fbf4d5eec5306840f8b75b994e5d57090/">ст. 15 ГК РФ</a>
               </b-popover>
               <b-popover target="wrap-c7-v16" triggers="hover" placement="top">
                 На практике имеется неопределенности с ценой иска по признанию сделок недействительными. Подробнее 
-                <a href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=CJI&n=123299#07416649636887795">см. в п. 3 Решения</a>
+                <a target="_blank" href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=CJI&n=123299#07416649636887795">см. в п. 3 Решения</a>
               </b-popover>
               <b-popover target="wrap-c7-v20" triggers="hover" placement="top">
                 Подробнее об уважительных сроках пропуска см. 
-                <a href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&cacheid=68B151FC975A0559A451E0DC369191B6&mode=backrefs&SORTTYPE=0&BASENODE=1-1&ts=7076159540986915479&base=LAW&n=139107&rnd=D42BA60A6340E32FFBF5DCB0691CA5AF#22mge9uywim">п. 10 ПП ВС № 29 от 11.12.2012</a>
+                <a target="_blank" href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&cacheid=68B151FC975A0559A451E0DC369191B6&mode=backrefs&SORTTYPE=0&BASENODE=1-1&ts=7076159540986915479&base=LAW&n=139107&rnd=D42BA60A6340E32FFBF5DCB0691CA5AF#22mge9uywim">п. 10 ПП ВС № 29 от 11.12.2012</a>
               </b-popover>
 
               <div @change='onChange7()'>
@@ -405,7 +405,7 @@
               <!-- 8 -->
               <b-popover target="wrap-c8-v1" triggers="hover" placement="top">
                 См. подробнее 
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_5142/93383099dc4f06165d8d4aac4eeb159db4f6da3d/">395 ГК РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_5142/93383099dc4f06165d8d4aac4eeb159db4f6da3d/">395 ГК РФ</a>
               </b-popover>
 
               <div @change='onChange8()'>
@@ -429,12 +429,12 @@
               <!-- 5 -->
               <p id='c5-h1' class="p-1 border border-primary bg-light text-black rounded">
                 Подробнее об определении цены иска 
-                <a href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=CJI&n=123299#07416649636887795">см. Решение</a>
+                <a target="_blank" href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=CJI&n=123299#07416649636887795">см. Решение</a>
               </p>
 
               <p v-if='choice5 == "c5-v1"' id='c5-h2' class="p-1 border border-primary bg-light text-black rounded">
                 Особенности определения цены иска –
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_39570/7323db566b767e88542acc5ac8c780f5b6ef8e1c/">ст. 91 ГПК РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_39570/7323db566b767e88542acc5ac8c780f5b6ef8e1c/">ст. 91 ГПК РФ</a>
               </p>
 
               <p id='c5-h3' class="p-1 border border-primary bg-light text-black rounded">
@@ -452,7 +452,7 @@
               <!-- 9 -->
               <p v-if='choice9 == "c9-v2"' id='c9-h1' class="p-1 border border-primary bg-light text-black rounded">
                 По некоторым категориям дел соблюдение досудебного порядка урегулирования спора обязательно!
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
               </p>
 
               <b-form-group>
@@ -475,11 +475,11 @@
               <!-- 11 -->
               <p id='c11-h1' class="p-1 border border-primary bg-light text-black rounded">
                 По потребительским спорам допускается конкуренция деликтного и договорного исков. См. 
-                <a href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=ARB&n=422388#09404552338822694">Определение СК ВС РФ</a>
+                <a target="_blank" href="http://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=ARB&n=422388#09404552338822694">Определение СК ВС РФ</a>
               </p>
               <p v-if='choice11 == "c11-v3"' id='c11-h2' class="p-1 border border-primary bg-light text-black rounded">
                 По некоторым категориям дел соблюдение досудебного порядка урегулирования спора обязательно!
-                <a href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
+                <a target="_blank" href="http://www.consultant.ru/document/cons_doc_LAW_188617/">См. справочный материал</a>
               </p>
 
               <b-form-group>
@@ -493,8 +493,15 @@
                 <b-form-radio name="choice-11" id="c11-v4" value="c11-v4" v-model="choice11" @change="hide('c11-block1')">Нет</b-form-radio>
               </b-form-group>
             </form>
+            <b-button-group class='mb-3'>
+              <b-button v-if='download_available' @click='download()'>Скачать</b-button>
+              <b-button @click='updatePDF()'>Предпросмотр</b-button>
+            </b-button-group>
           </b-col>
+        <!-- </b-row -->
 
+
+          
           <b-col>
 
             <div>

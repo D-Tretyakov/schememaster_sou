@@ -144,6 +144,10 @@ var app = new Vue({
       //   document.getElementById('c7-h4').style.display = 'none'
       // }
 
+      if (this.choice7.length == 0) {
+        this.choice7.push('c7-v1')
+      }
+
       if (this.choice7.some(el => 
           ['c7-v1','c7-v2','c7-v3',
            'c7-v4','c7-v5','c7-v6',
@@ -169,6 +173,7 @@ var app = new Vue({
       console.log(this.needs_price_7 || this.needs_price_8)
     },
     onChange8() {
+
       if (this.choice8.includes('c8-v3') || this.choice8.includes('c8-v6')) {
         this.needs_price_8 = false;
       } else {
@@ -235,7 +240,7 @@ var app = new Vue({
         //handle error
         app.updating = false
         app.error = true
-        alert('Что-то пошло не так ¯\\_(ツ)_/¯')
+        // alert('Что-то пошло не так ¯\\_(ツ)_/¯')
         console.log(response)
       });
     },
