@@ -115,6 +115,7 @@ def index(request):
     return render(request, 'schemegen/index.html', context)
 
 def convertion(ans, session_key):
+    print(ans)
     document = Document()
     fname = f'./claims/demo_{session_key}.docx'
     document.save(fname)  
@@ -211,8 +212,10 @@ def convertion(ans, session_key):
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     k = 0
     for i in ans[7]:
-        k+=1
-        document.add_paragraph('%i.' %k + i[1])
+        res = re.split(r'\n|\r\n', i[1])
+        for j in res:
+            k+=1
+            document.add_paragraph('%i.' %k + j)
     if ans[8]!= ['']:
         l = []
         for i in ans[8]:
