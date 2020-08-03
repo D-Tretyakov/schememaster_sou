@@ -18,6 +18,8 @@ import os
 from .models import Template, TextAlias
 
 def index(request):
+    # Да, это очень плохое решение, 
+    # Это надо положить в модели
     d = {
     'c0_v1': 'Мировой судья',
     'c0_v2': 'Районный суд',
